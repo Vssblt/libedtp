@@ -1,29 +1,21 @@
 #ifndef BASE64_H
 #define BASE64_H
 
-#include <string>
-#include <map>
+#include <common.h>
 
-class Base64 {
-public:
-	Base64();
-	~Base64();
-	std::string encode(std::string str);
-	std::string decode(std::string str);
-	std::string safeDecode(std::string str);
-	std::string safeEncode(std::string str);
+typedef struct Base64 Base64;
 
-protected:
-	std::string encode_core(std::string &str, const std::string &table);
-	std::string decode_core(std::string str, std::map<char, unsigned char> *decodeTableMap);
-
-private:
-	std::string table;
-	std::string safeTable;
-	std::map<char, unsigned char> *decodeTableMap;
-	std::map<char, unsigned char> *decodeSafeTableMap;
-
+struct Base64 {
+	const char *table;
+	const char *safeTable;
 };
 
+static Base64 base64 = { .table = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", .safeTable = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"};
+
+size_t base64_encode(const u_char *str, size_t in_size, char *out);
+size_t base64_decode(const u_char *str, size_t in_size, char *out);
+
+size_t base64_safeDecode(const u_char *str, size_t in_size, char *out);
+size_t base64_safeEncode(const u_char *str, size_t in_size, char *out);
 
 #endif

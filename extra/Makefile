@@ -1,4 +1,4 @@
-COMMON = -std=c++11 -w -O0 -I../libnet/ $(Mco)
+COMMON = -std=c99 -w -O0 -I../core/ $(Mco)
 LINKLIB = -lpthread
 OUTFILE = ../build
 
@@ -15,13 +15,13 @@ checkdir:
 libnet-extra: $(OUTFILE) $(O)
 	ar rcs $(OUTFILE)/libnet-extra.a  $(O)
 
-$(OUTFILE)/httppack.o:  httppack.cpp
+$(OUTFILE)/httppack.o:  httppack.c
 	$(CXX) -c $<  -o $@ $(COMMON) $(INCLUDE)
 
-$(OUTFILE)/httpunpack.o:  httpunpack.cpp
+$(OUTFILE)/httpunpack.o:  httpunpack.c
 	$(CXX) -c $<  -o $@ $(COMMON) $(INCLUDE)
 
-$(OUTFILE)/base64.o:  base64.cpp
+$(OUTFILE)/base64.o:  base64.c
 	$(CXX) -c $<  -o $@ $(COMMON) $(INCLUDE)
 
 clean:

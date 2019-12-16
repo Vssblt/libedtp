@@ -24,9 +24,3 @@ $ git clone https://github.com/Vssblt/LibNet.git
 $ cd LibNet
 $ ./sln
 ```
-
-
-###  Remarks
-
-
-> Please compile this project with a Windows SDK that supports C++ 11.
