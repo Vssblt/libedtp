@@ -1,64 +1,72 @@
 #include "base64.h"
+#include <string.h>
 
 size_t base64_encode_core(const u_char *str, size_t in_size, char *out, const char *table);
 size_t base64_decode_core(const u_char *str, size_t in_size, char *out, const char *table);
 u_char decodeTableMap(const u_char str, const char *table);
 
-size_t base64_encode(const u_char *str, size_t in_size, char *out)
+size_t
+base64_encode(const u_char *str, size_t in_size, char *out)
 {
 	return base64_encode_core(str, in_size, out, base64.table);
 }
 
-size_t base64_safeEncode(const u_char *str, size_t in_size, char *out)
+size_t
+base64_safeEncode(const u_char *str, size_t in_size, char *out)
 {
 	return base64_encode_core(str, in_size, out, base64.safeTable);
 }
 
-size_t base64_encode_core(const u_char *str, size_t in_size, char *out, const char *table)
+size_t
+base64_encode_core(const u_char *str, size_t in_size, char *out, const char *table)
 {
 	size_t size = 0;
 
 	for (int i = 0; i < in_size / 3; i++)
 	{
-		out += table[str[i * 3] >> 2];
-		out += table[((str[i * 3] << 4) | (str[i * 3 + 1] >> 4)) & 0x3F];
-		out += table[((str[i * 3 + 1] << 2) | (str[i * 3 + 2] >> 6)) & 0x3F];
-		out += table[str[i * 3 + 2] & 0x3F];
+		out[i * 3] = table[str[i * 3] >> 2];
+		out[i * 3 + 1] = table[((str[i * 3] << 4) | (str[i * 3 + 1] >> 4)) & 0x3F];
+		out[i * 3 + 2] = table[((str[i * 3 + 1] << 2) | (str[i * 3 + 2] >> 6)) & 0x3F];
+		out[i * 3 + 3] = table[str[i * 3 + 2] & 0x3F];
 	}
-	size = in_size / 3 * 4;
+
+	size = in_size * 8 / 6;
 	int num = in_size * 8 % 6;
 
 	if (num == 4)
 	{
 		int i = in_size / 3;
-		out += table[str[i * 3] >> 2];
-		out += table[((str[i * 3] << 4) | (str[i * 3 + 1] >> 4)) & 0x3F];
-		out += table[(str[i * 3 + 1] << 2) & 0x3F];
-		out += '=';
+		out[i] = table[str[i * 3] >> 2];
+		out[i * 3 + 1] = table[((str[i * 3] << 4) | (str[i * 3 + 1] >> 4)) & 0x3F];
+		out[i * 3 + 2] = table[(str[i * 3 + 1] << 2) & 0x3F];
+		out[i * 3 + 3] = '=';
 		size++;
 	} else if (num == 2) {
 		int i = in_size / 3;
-		out += table[str[i * 3] >> 2];
-		out += table[(str[i * 3] << 4) & 0x3F];
-		out += '=';
-		out += '=';
+		out[i] = table[str[i * 3] >> 2];
+		out[i * 3 + 1] = table[(str[i * 3] << 4) & 0x3F];
+		out[i * 3 + 2] = '=';
+		out[i * 3 + 3] = '=';
 		size += 2;
 	}
 
 	return size; 
 }
 
-size_t base64_decode(const u_char *str, size_t in_size, char *out)
+size_t
+base64_decode(const u_char *str, size_t in_size, char *out)
 {
 	return base64_decode_core(str, in_size, out, base64.table);
 }
 
-size_t base64_safeDecode(const u_char *str, size_t in_size, char *out)
+size_t
+base64_safeDecode(const u_char *str, size_t in_size, char *out)
 {
 	return base64_decode_core(str, in_size, out, base64.safeTable);
 }
 
-size_t base64_decode_core(const u_char *str, size_t in_size, char *out, const char *table)
+size_t
+base64_decode_core(const u_char *str, size_t in_size, char *out, const char *table)
 {
 	size_t fillBytes = 4 - in_size % 4;
 	if (fillBytes == 3) return 0;
@@ -77,7 +85,8 @@ size_t base64_decode_core(const u_char *str, size_t in_size, char *out, const ch
 	return outSize;
 }
 
-u_char decodeTableMap(const u_char str, const char *table)
+u_char
+decodeTableMap(const u_char str, const char *table)
 {
 	if (str > 0x30 && str < 0x39) {
 		return str - 0x30 + 26 * 2;

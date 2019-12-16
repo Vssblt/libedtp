@@ -1,4 +1,4 @@
-COMMON = -std=c99 -w -O0 -I../core/ $(Mco)
+COMMON = -std=c99 -w -O2 -I../core/ $(Mco)
 LINKLIB = -lpthread
 OUTFILE = ../build
 
