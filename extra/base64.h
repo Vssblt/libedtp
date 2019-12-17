@@ -18,4 +18,6 @@ size_t base64_decode(const u_char *str, size_t in_size, char *out);
 size_t base64_safe_decode(const u_char *str, size_t in_size, char *out);
 size_t base64_safe_encode(const u_char *str, size_t in_size, char *out);
 
+size_t base64_sizeof(size_t in_size);
+
 #endif

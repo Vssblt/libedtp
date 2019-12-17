@@ -117,3 +117,9 @@ decodeTableMap(const u_char str, const char *table)
 	return 0;
 }
 
+size_t
+base64_sizeof(size_t in_size)
+{
+	return in_size % 3 == 0 ? in_size / 3 * 4 : (in_size / 3 + 1) * 4;
+}
+
