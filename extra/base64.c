@@ -1,5 +1,6 @@
 #include "base64.h"
 #include <string.h>
+#include <stdio.h>
 
 size_t base64_encode_core(const u_char *str, size_t in_size, char *out, const char *table);
 size_t base64_decode_core(const u_char *str, size_t in_size, char *out, const char *table);
@@ -74,7 +75,7 @@ base64_decode_core(const u_char *str, size_t in_size, char *out, const char *tab
 {
 	size_t fillBytes = 4 - in_size % 4;
 	if (fillBytes == 3) return 0;
-	size_t outSize = in_size / 4 * 3 + (fillBytes == 0 ? 0 : 3);
+	size_t outSize = in_size / 4 * 3 + (fillBytes == 4 ? 0 : 3);
 	memset(out, 0, outSize);
 
 	for (int i = 0; i < in_size / 4; i++)

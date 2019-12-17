@@ -19,7 +19,7 @@ main()
 void base64_test()
 {
 	printf("\nbase64 encode test: \n");
-	char *base64_in = "This is a test message.tt";
+	char *base64_in = "This is a test message.";
 	size_t in_size = strlen(base64_in);
 	size_t out_size = in_size % 3 == 0 ? in_size / 3 * 4 : (in_size / 3 + 1) * 4;
 	char *out = (char *)malloc(sizeof(char) * out_size + 1);
@@ -38,8 +38,8 @@ void base64_test()
 	printf("base64 decode test: \n");
 	in_size = strlen(out);
 	out_size = in_size / 4 * 3;
-	char *text = (char *)malloc(sizeof(char) * out_size);
-	memset(text, 0, sizeof(char) * out_size);
+	char *text = (char *)malloc(sizeof(char) * out_size + 1);
+	memset(text, 0, sizeof(char) * out_size + 1);
 	out_size = base64_decode((const u_char*)out, in_size, text);
 	printf("in_size: %d\n", in_size);
 	printf("out_size: %d\n", out_size);
@@ -62,8 +62,8 @@ void safe_base64_test()
 	char *base64_in = "This is a test messages.";
 	size_t in_size = strlen(base64_in);
 	size_t out_size = in_size % 3 == 0 ? in_size / 3 * 4 : (in_size / 3 + 1) * 4;
-	char *out = (char *)malloc(sizeof(char) * out_size);
-	memset(out, 0, sizeof(char) * out_size);
+	char *out = (char *)malloc(sizeof(char) * out_size + 1);
+	memset(out, 0, sizeof(char) * out_size + 1);
 	out_size = base64_safe_encode((const u_char*)base64_in, in_size, out);
 	printf("in_size: %d\n", in_size);
 	printf("out_size: %d\n", out_size);
@@ -78,8 +78,8 @@ void safe_base64_test()
 	printf("safe base64 decode test: \n");
 	in_size = strlen(out);
 	out_size = in_size / 4 * 3;
-	char *text = (char *)malloc(sizeof(char) * out_size);
-	memset(text, 0, sizeof(char) * out_size);
+	char *text = (char *)malloc(sizeof(char) * out_size + 1);
+	memset(text, 0, sizeof(char) * out_size + 1);
 	out_size = base64_decode((const u_char*)out, in_size, text);
 	printf("in_size: %d\n", in_size);
 	printf("out_size: %d\n", out_size);
