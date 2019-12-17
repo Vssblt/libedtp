@@ -1,4 +1,4 @@
-COMMON = -std=c99 -w -O2 -I../core/ $(Mco)
+COMMON = -w -O2 -I../core/ $(Mco)
 LINKLIB = -lpthread
 OUTFILE = ../build
 
@@ -23,6 +23,3 @@ $(OUTFILE)/httpunpack.o:  httpunpack.c
 
 $(OUTFILE)/base64.o:  base64.c
 	$(CXX) -c $<  -o $@ $(COMMON) $(INCLUDE)
-
-clean:
-	rm -f libnet-test

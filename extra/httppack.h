@@ -52,16 +52,5 @@ typedef struct RESPONSE_HEADER {
 	std::string proxyAuthenticate;
 }ResponseHeader;
 
-class HttpPack {
-	public:
-		HttpPack();
-		~HttpPack();
-	private:
-		std::string *pointer;
-
-
-
-};
-
 #endif
 
