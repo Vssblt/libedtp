@@ -15,7 +15,7 @@ static Base64 base64 = { .table = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrs
 size_t base64_encode(const u_char *str, size_t in_size, char *out);
 size_t base64_decode(const u_char *str, size_t in_size, char *out);
 
-size_t base64_safeDecode(const u_char *str, size_t in_size, char *out);
-size_t base64_safeEncode(const u_char *str, size_t in_size, char *out);
+size_t base64_safe_decode(const u_char *str, size_t in_size, char *out);
+size_t base64_safe_encode(const u_char *str, size_t in_size, char *out);
 
 #endif
