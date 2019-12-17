@@ -20,7 +20,9 @@ base64_safe_encode(const u_char *str, size_t in_size, char *out)
 size_t
 base64_encode_core(const u_char *str, size_t in_size, char *out, const char *table)
 {
-	size_t size = 0;
+	int num = in_size * 8 % 6;
+	size_t size = in_size * 8 / 6 + (in_size * 8 % 6 == 0 ? 0 : 1);
+	memset(out, 0, in_size % 3 == 0 ? in_size / 3 * 4 : (in_size / 3 + 1) * 4);
 
 	for (int i = 0; i < in_size / 3; i++)
 	{
@@ -30,8 +32,6 @@ base64_encode_core(const u_char *str, size_t in_size, char *out, const char *tab
 		out[i * 4 + 3] = table[str[i * 3 + 2] & 0x3F];
 	}
 
-	size = in_size * 8 / 6 + (in_size * 8 % 6 == 0 ? 0 : 1);
-	int num = in_size * 8 % 6;
 
 	if (num == 4)
 	{

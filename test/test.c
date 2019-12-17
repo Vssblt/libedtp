@@ -19,11 +19,11 @@ main()
 void base64_test()
 {
 	printf("\nbase64 encode test: \n");
-	char *base64_in = "test";
+	char *base64_in = "This is a test message.tt";
 	size_t in_size = strlen(base64_in);
 	size_t out_size = in_size % 3 == 0 ? in_size / 3 * 4 : (in_size / 3 + 1) * 4;
-	char *out = (char *)malloc(sizeof(char) * out_size);
-	memset(out, 0, sizeof(char) * out_size);
+	char *out = (char *)malloc(sizeof(char) * out_size + 1);
+	memset(out, 0, sizeof(char) * out_size + 1);
 	out_size = base64_encode((const u_char*)base64_in, in_size, out);
 	printf("in_size: %d\n", in_size);
 	printf("out_size: %d\n", out_size);
