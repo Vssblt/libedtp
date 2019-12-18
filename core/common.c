@@ -1,6 +1,7 @@
 #include "common.h"
 #include <time.h>
 #include <stdio.h>
+#include <malloc.h>
 
 uint32_t
 timestamp() {
@@ -9,13 +10,10 @@ timestamp() {
 	return ii;
 }
 
-/*
 int
 random(int min, int max) {
-	std::random_device rd;
-	return rd() % (max - min) + min;
+	return 0;
 }
-*/
 
 int
 is_little_endian() {
@@ -54,9 +52,9 @@ print_time() {
 	printf("%s", buffer);
 }
 
-/*
 void
-mt_random(u_char *mem, unsigned int len) {
+mt_random_mem(u_char *mem, unsigned int len) {
+	/*
 	auto timeNow = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch());
 	std::mt19937 rdm((uint)timeNow.count());
 	std::uniform_int_distribution<int> rng(0, 255);
@@ -64,8 +62,8 @@ mt_random(u_char *mem, unsigned int len) {
 	{
 		mem[i] = static_cast<u_char>(rng(rdm));
 	}
+	*/
 }
-*/
 
 void
 bin2hex(const u_char *data, uint32_t size, char *out) {
@@ -85,13 +83,11 @@ bin2hex(const u_char *data, uint32_t size, char *out) {
 	}
 }
 
-/*
 void
 uuid(char *_uuid) {
 	int line[] = {12, 16, 20, 24,};
-	u_char *data = new(std::nothrow) u_char[16];
-	assert(data != nullptr);
-	mt_random(data, 16);
+	u_char *data = (u_char *)malloc(16);
+	mt_random_mem(data, 16);
 
 	data[6] = 0x40 | (data[6] & 0xf);
 	data[8] = 0x80 | (data[8] & 0x3f);
@@ -108,7 +104,5 @@ uuid(char *_uuid) {
 		}
 		_uuid[i + 4 - j] = _uuid[i];
 	}
-	delete [] data ;
+	free(data);
 }
-
-*/
