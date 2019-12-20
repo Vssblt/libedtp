@@ -49,7 +49,7 @@ random_s(int min, int max) {
 		read(fd, &r, sizeof(r));
 		close(fd);
 	}
-  #elif defined __cygwin__
+  #elif defined __CYGWIN__
 	printf("cygwin");
   #else
 	printf("empty");
