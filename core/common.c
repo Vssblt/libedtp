@@ -8,11 +8,18 @@
   #include <windows.h>
   #ifndef _WIN32_WCE
 
-    #define RtlGenRandom SystemFunction036
-    BOOLEAN NTAPI RtlGenRandom(PVOID RandomBuffer, ULONG RandomBufferLength);
-    #pragma comment(lib, "advapi32.lib")
+#define RtlGenRandom SystemFunction036
+BOOLEAN NTAPI RtlGenRandom(PVOID RandomBuffer, ULONG RandomBufferLength);
+#pragma comment(lib, "advapi32.lib")
 
   #endif /*_WIN32_WCE*/
+#else
+  #ifdef __linux__
+
+#include <fcntl.h>
+#include <unistd.h>
+
+  #endif
 
 #endif /*_WIN32*/
 
@@ -41,7 +48,7 @@ random_s(int min, int max) {
 	}
   #endif	
 #else
-  #ifdef _UNIX
+  #ifdef __linux__
 	printf("_UNIX");
 	int fd = open("/dev/urandom", O_RDONLY);
 	if (fd != -1) {
