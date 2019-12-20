@@ -6,17 +6,24 @@
 
 void base64_test();
 void safe_base64_test();
+void random_s_test();
 
 int
 main()
 {
-	int ret = random_s(100, 200);
-	printf("random_s: %d\n", ret);
-
+	random_s_test();
 	base64_test();
 	safe_base64_test();
 
 	return 0;
+}
+
+void random_s_test()
+{
+	printf("\nrandom_s test: \n");
+	int ret = random_s(-200, -100);
+	printf("random_s: %d\n", ret);
+	printf("\n");
 }
 
 void

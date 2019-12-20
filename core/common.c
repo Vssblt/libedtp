@@ -11,7 +11,7 @@
     #pragma comment(lib, "advapi32.lib")
   #endif /*_WIN32_WCE*/
 #else
-  #ifdef __linux__
+  #if defined __linux__ || defined __CYGWIN__
     #include <fcntl.h>
     #include <unistd.h>
   #endif
@@ -29,34 +29,27 @@ random_s(int min, int max) {
 	int r = -1;
 #ifdef _WIN32
   #ifdef _WIN32_WCE
-	printf("_WIN32_WCE");
 	int ret = CeGenRandom(sizeof(r), (BYTE *)&r);
 	if (!ret) {
 		r = -1;
 	}
   #else
-	printf("_WIN32");
 	int ret = RtlGenRandom(&r, (ULONG)sizeof(r));
 	if (!ret) {
 		r = -1;
 	}
   #endif	
 #else
-  #if defined __linux__
-	printf("_UNIX");
+  #if defined __linux__ || defined __CYGWIN__
 	int fd = open("/dev/urandom", O_RDONLY);
 	if (fd != -1) {
 		read(fd, &r, sizeof(r));
 		close(fd);
 	}
-  #elif defined __CYGWIN__
-	printf("cygwin");
-  #else
-	printf("empty");
   #endif
 #endif
 	if (r != -1) {
-		r = r % (max - min) + min;
+		r = (unsigned int)r % (max - min) + min;
 	}
 	return r;
 }
