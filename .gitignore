@@ -15,6 +15,7 @@
 *.out
 
 *.stackdump
+*.swp
 
 /build/
 /test/libnet-test
