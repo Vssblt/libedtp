@@ -8,7 +8,7 @@ typedef unsigned char u_char;
 
 uint32_t timestamp();
 
-int random_s(int min, int max);
+int random_s(int min, int max, int *err);
 
 int is_little_endian();
 
@@ -16,7 +16,7 @@ uint32_t mhash(const char* str, uint32_t len);
 
 void print_time();
 
-void mt_random_mem(u_char *mem, unsigned int len);
+int random_mem(u_char *mem, uint32_t len);
 
 void bin2hex(const u_char *data, uint32_t size, char *out);
 

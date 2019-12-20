@@ -7,10 +7,12 @@
 void base64_test();
 void safe_base64_test();
 void random_s_test();
+void uuid_test();
 
 int
 main()
 {
+	uuid_test();
 	random_s_test();
 	base64_test();
 	safe_base64_test();
@@ -18,12 +20,24 @@ main()
 	return 0;
 }
 
-void random_s_test()
+void 
+random_s_test()
 {
 	printf("\nrandom_s test: \n");
-	int ret = random_s(-200, -100);
+	int ret_err = 0;
+	int ret = random_s(-200, -100, &ret_err);
 	printf("random_s: %d\n", ret);
 	printf("\n");
+}
+
+void
+uuid_test()
+{
+	printf("\nUUID genration test: \n");
+	char *uuid_str = (char *)malloc(37);
+	memset(uuid_str, 0, 37);
+	uuid(uuid_str);
+	printf("UUID: %s\n\n", uuid_str);
 }
 
 void

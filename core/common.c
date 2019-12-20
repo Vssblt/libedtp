@@ -25,33 +25,23 @@ timestamp() {
 }
 
 int
-random_s(int min, int max) {
-	int r = -1;
-#ifdef _WIN32
-  #ifdef _WIN32_WCE
-	int ret = CeGenRandom(sizeof(r), (BYTE *)&r);
-	if (!ret) {
-		r = -1;
+random_s(int min, int max, int *err) {
+	int r = 0;
+	int ret = random_mem((u_char*)&r, sizeof(r));
+	if (err == NULL) {
+		if (ret == -1) {
+			return 0;
+		} else {
+			return (u_char)r % (max - min) + min;
+		}
+	} else {
+		*err = ret;
+		if (ret != -1) {
+			return (u_char)r % (max - min) + min;
+		} else {
+			return 0;
+		}
 	}
-  #else
-	int ret = RtlGenRandom(&r, (ULONG)sizeof(r));
-	if (!ret) {
-		r = -1;
-	}
-  #endif	
-#else
-  #if defined __linux__ || defined __CYGWIN__
-	int fd = open("/dev/urandom", O_RDONLY);
-	if (fd != -1) {
-		read(fd, &r, sizeof(r));
-		close(fd);
-	}
-  #endif
-#endif
-	if (r != -1) {
-		r = (unsigned int)r % (max - min) + min;
-	}
-	return r;
 }
 
 int
@@ -91,17 +81,28 @@ print_time() {
 	printf("%s", buffer);
 }
 
-void
-mt_random_mem(u_char *mem, unsigned int len) {
-	/*
-	auto timeNow = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch());
-	std::mt19937 rdm((uint)timeNow.count());
-	std::uniform_int_distribution<int> rng(0, 255);
-	for ( uint32_t i = 0; i < len; i++)
-	{
-		mem[i] = static_cast<u_char>(rng(rdm));
+int
+random_mem(u_char *mem, uint32_t len) {
+	int i = -1;
+#ifdef _WIN32
+  #ifdef _WIN32_WCE
+	int ret = CeGenRandom(len, (BYTE *)mem);
+	ret ? i = 0 : 0
+  #else
+	int ret = RtlGenRandom(mem, (ULONG)len);
+	ret ? i = 0 : 0
+  #endif	
+#else
+  #if defined __linux__ || defined __CYGWIN__
+	int fd = open("/dev/urandom", O_RDONLY);
+	if (fd != -1) {
+		read(fd, mem, len);
+		close(fd);
+		i = 0;
 	}
-	*/
+  #endif
+#endif
+	return i;
 }
 
 void
@@ -126,7 +127,7 @@ void
 uuid(char *_uuid) {
 	int line[] = {12, 16, 20, 24,};
 	u_char *data = (u_char *)malloc(16);
-	mt_random_mem(data, 16);
+	random_mem(data, 16);
 
 	data[6] = 0x40 | (data[6] & 0xf);
 	data[8] = 0x80 | (data[8] & 0x3f);
