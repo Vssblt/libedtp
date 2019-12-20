@@ -51,8 +51,9 @@ random_s(int min, int max) {
 	}
   #elif defined __cygwin__
 	printf("cygwin");
-  #endif
+  #else
 	printf("empty");
+  #endif
 #endif
 	if (r != -1) {
 		r = r % (max - min) + min;
