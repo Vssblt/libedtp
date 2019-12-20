@@ -3,6 +3,19 @@
 #include <stdio.h>
 #include <malloc.h>
 
+#ifdef _WIN32
+
+  #include <windows.h>
+  #ifndef _WIN32_WCE
+
+    #define RtlGenRandom SystemFunction036
+    BOOLEAN NTAPI RtlGenRandom(PVOID RandomBuffer, ULONG RandomBufferLength);
+    #pragma comment(lib, "advapi32.lib")
+
+  #endif /*_WIN32_WCE*/
+
+#endif /*_WIN32*/
+
 uint32_t
 timestamp() {
 	time_t t = time(NULL);
@@ -11,8 +24,37 @@ timestamp() {
 }
 
 int
-random(int min, int max) {
-	return 0;
+random_s(int min, int max) {
+	int r = -1;
+#ifdef _WIN32
+  #ifdef _WIN32_WCE
+	printf("_WIN32_WCE");
+	int ret = CeGenRandom(sizeof(r), (BYTE *)&r);
+	if (!ret) {
+		r = -1;
+	}
+  #else
+	printf("_WIN32");
+	int ret = RtlGenRandom(&r, (ULONG)sizeof(r));
+	if (!ret) {
+		r = -1;
+	}
+  #endif	
+#else
+  #ifdef _UNIX
+	printf("_UNIX");
+	int fd = open("/dev/urandom", O_RDONLY);
+	if (fd != -1) {
+		read(fd, &r, sizeof(r));
+		close(fd);
+	}
+  #endif
+	printf("empty");
+#endif
+	if (r != -1) {
+		r = r % (max - min) + min;
+	}
+	return r;
 }
 
 int

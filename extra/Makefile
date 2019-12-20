@@ -1,5 +1,5 @@
 COMMON = -w -O2 -I../core/ $(Mco)
-LINKLIB = -lpthread
+LINKLIB = 
 OUTFILE = ../build
 
 O = \

@@ -8,7 +8,7 @@ typedef unsigned char u_char;
 
 uint32_t timestamp();
 
-int random(int min, int max);
+int random_s(int min, int max);
 
 int is_little_endian();
 

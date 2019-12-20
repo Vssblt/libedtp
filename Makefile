@@ -19,3 +19,6 @@ checkdir:
 	mkdir -p build	
 	mkdir -p build/include/
 	mkdir -p build/include/extra/
+
+tags:
+	ctags `find ./core ./test ./extra -name *.[hc]`

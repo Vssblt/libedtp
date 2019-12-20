@@ -10,6 +10,9 @@ void safe_base64_test();
 int
 main()
 {
+	int ret = random_s(100, 200);
+	printf("random_s: %d\n", ret);
+
 	base64_test();
 	safe_base64_test();
 

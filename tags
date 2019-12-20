@@ -4,45 +4,66 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
+BASE64_H	./build/include/extra/base64.h	2;"	d
 BASE64_H	./extra/base64.h	2;"	d
+Base64	./build/include/extra/base64.h	/^struct Base64 {$/;"	s
+Base64	./build/include/extra/base64.h	/^typedef struct Base64 Base64;$/;"	t	typeref:struct:Base64
 Base64	./extra/base64.h	/^struct Base64 {$/;"	s
 Base64	./extra/base64.h	/^typedef struct Base64 Base64;$/;"	t	typeref:struct:Base64
-COMMON	./core/Makefile	/^COMMON = -W -Wall -O2 $(Mco)$/;"	m
-COMMON	./extra/Makefile	/^COMMON = -w -O2 -I..\/core\/ $(Mco)$/;"	m
-COMMON	./test/Makefile	/^COMMON = -g -w -O0 -I..\/core\/  -I..\/extra\/ $(Mco)$/;"	m
+COMMON_H	./build/include/common.h	2;"	d
 COMMON_H	./core/common.h	2;"	d
+CONNECT	./build/include/extra/httppack.h	/^	CONNECT, $/;"	e	enum:method
 CONNECT	./extra/httppack.h	/^	CONNECT, $/;"	e	enum:method
+DELETE	./build/include/extra/httppack.h	/^	DELETE, $/;"	e	enum:method
 DELETE	./extra/httppack.h	/^	DELETE, $/;"	e	enum:method
+GENERAL_HEADER	./build/include/extra/httppack.h	/^typedef struct GENERAL_HEADER {$/;"	s
 GENERAL_HEADER	./extra/httppack.h	/^typedef struct GENERAL_HEADER {$/;"	s
+GET	./build/include/extra/httppack.h	/^	GET, $/;"	e	enum:method
 GET	./extra/httppack.h	/^	GET, $/;"	e	enum:method
+GeneralHeader	./build/include/extra/httppack.h	/^}GeneralHeader;$/;"	t	typeref:struct:GENERAL_HEADER
 GeneralHeader	./extra/httppack.h	/^}GeneralHeader;$/;"	t	typeref:struct:GENERAL_HEADER
+HEAD	./build/include/extra/httppack.h	/^	HEAD, $/;"	e	enum:method
 HEAD	./extra/httppack.h	/^	HEAD, $/;"	e	enum:method
+HEADER_LINE	./build/include/extra/httppack.h	/^typedef struct HEADER_LINE {$/;"	s
 HEADER_LINE	./extra/httppack.h	/^typedef struct HEADER_LINE {$/;"	s
+HTTPPACK_H	./build/include/extra/httppack.h	2;"	d
 HTTPPACK_H	./extra/httppack.h	2;"	d
+HTTPUNPACK_H	./build/include/extra/httpunpack.h	2;"	d
 HTTPUNPACK_H	./extra/httpunpack.h	2;"	d
+HeaderLine	./build/include/extra/httppack.h	/^}HeaderLine;$/;"	t	typeref:struct:HEADER_LINE
 HeaderLine	./extra/httppack.h	/^}HeaderLine;$/;"	t	typeref:struct:HEADER_LINE
-LINKLIB	./extra/Makefile	/^LINKLIB = -lpthread$/;"	m
-LINKLIB	./test/Makefile	/^LINKLIB = -lpthread -lnet-extra -L..\/build\/$/;"	m
-Mco	./Makefile	/^Mco = $(M)$/;"	m
-O	./core/Makefile	/^O = \\$/;"	m
-O	./extra/Makefile	/^O = \\$/;"	m
+OPTIONS	./build/include/extra/httppack.h	/^	OPTIONS, $/;"	e	enum:method
 OPTIONS	./extra/httppack.h	/^	OPTIONS, $/;"	e	enum:method
-OUTFILE	./core/Makefile	/^OUTFILE = ..\/build\/$/;"	m
-OUTFILE	./extra/Makefile	/^OUTFILE = ..\/build$/;"	m
+POST	./build/include/extra/httppack.h	/^	POST, $/;"	e	enum:method
 POST	./extra/httppack.h	/^	POST, $/;"	e	enum:method
+PUT	./build/include/extra/httppack.h	/^	PUT, $/;"	e	enum:method
 PUT	./extra/httppack.h	/^	PUT, $/;"	e	enum:method
+REQUEST_HEADER	./build/include/extra/httppack.h	/^typedef struct REQUEST_HEADER {$/;"	s
 REQUEST_HEADER	./extra/httppack.h	/^typedef struct REQUEST_HEADER {$/;"	s
+RESPONSE_HEADER	./build/include/extra/httppack.h	/^typedef struct RESPONSE_HEADER {$/;"	s
 RESPONSE_HEADER	./extra/httppack.h	/^typedef struct RESPONSE_HEADER {$/;"	s
+RequestHeader	./build/include/extra/httppack.h	/^}RequestHeader;$/;"	t	typeref:struct:REQUEST_HEADER
 RequestHeader	./extra/httppack.h	/^}RequestHeader;$/;"	t	typeref:struct:REQUEST_HEADER
+ResponseHeader	./build/include/extra/httppack.h	/^}ResponseHeader;$/;"	t	typeref:struct:RESPONSE_HEADER
 ResponseHeader	./extra/httppack.h	/^}ResponseHeader;$/;"	t	typeref:struct:RESPONSE_HEADER
+RtlGenRandom	./core/common.c	11;"	d	file:
+TRACE	./build/include/extra/httppack.h	/^	TRACE, $/;"	e	enum:method
 TRACE	./extra/httppack.h	/^	TRACE, $/;"	e	enum:method
+accept	./build/include/extra/httppack.h	/^	std::string accept;$/;"	m	struct:REQUEST_HEADER
 accept	./extra/httppack.h	/^	std::string accept;$/;"	m	struct:REQUEST_HEADER
+acceptCharset	./build/include/extra/httppack.h	/^	std::string acceptCharset;$/;"	m	struct:REQUEST_HEADER
 acceptCharset	./extra/httppack.h	/^	std::string acceptCharset;$/;"	m	struct:REQUEST_HEADER
+acceptEncoding	./build/include/extra/httppack.h	/^	std::string acceptEncoding;$/;"	m	struct:REQUEST_HEADER
 acceptEncoding	./extra/httppack.h	/^	std::string acceptEncoding;$/;"	m	struct:REQUEST_HEADER
+acceptLanguage	./build/include/extra/httppack.h	/^	std::string acceptLanguage;$/;"	m	struct:REQUEST_HEADER
 acceptLanguage	./extra/httppack.h	/^	std::string acceptLanguage;$/;"	m	struct:REQUEST_HEADER
+acceptRanges	./build/include/extra/httppack.h	/^	std::string acceptRanges;$/;"	m	struct:RESPONSE_HEADER
 acceptRanges	./extra/httppack.h	/^	std::string acceptRanges;$/;"	m	struct:RESPONSE_HEADER
+age	./build/include/extra/httppack.h	/^	std::string age;$/;"	m	struct:RESPONSE_HEADER
 age	./extra/httppack.h	/^	std::string age;$/;"	m	struct:RESPONSE_HEADER
+authorization	./build/include/extra/httppack.h	/^	std::string authorization;$/;"	m	struct:REQUEST_HEADER
 authorization	./extra/httppack.h	/^	std::string authorization;$/;"	m	struct:REQUEST_HEADER
+base64	./build/include/extra/base64.h	/^static Base64 base64 = { .table = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+\/", .safeTable = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"};$/;"	v
 base64	./extra/base64.h	/^static Base64 base64 = { .table = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+\/", .safeTable = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"};$/;"	v
 base64_decode	./extra/base64.c	/^base64_decode(const u_char *str, size_t in_size, char *out)$/;"	f
 base64_decode_core	./extra/base64.c	/^base64_decode_core(const u_char *str, size_t in_size, char *out, const char *table)$/;"	f
@@ -53,37 +74,60 @@ base64_safe_encode	./extra/base64.c	/^base64_safe_encode(const u_char *str, size
 base64_sizeof	./extra/base64.c	/^base64_sizeof(size_t in_size)$/;"	f
 base64_test	./test/test.c	/^base64_test()$/;"	f
 bin2hex	./core/common.c	/^bin2hex(const u_char *data, uint32_t size, char *out) {$/;"	f
+cacheControl	./build/include/extra/httppack.h	/^	std::string cacheControl;$/;"	m	struct:GENERAL_HEADER
 cacheControl	./extra/httppack.h	/^	std::string cacheControl;$/;"	m	struct:GENERAL_HEADER
+connection	./build/include/extra/httppack.h	/^	std::string connection;$/;"	m	struct:GENERAL_HEADER
 connection	./extra/httppack.h	/^	std::string connection;$/;"	m	struct:GENERAL_HEADER
+data	./build/include/extra/httppack.h	/^	std::string data;$/;"	m	struct:GENERAL_HEADER
 data	./extra/httppack.h	/^	std::string data;$/;"	m	struct:GENERAL_HEADER
 decodeTableMap	./extra/base64.c	/^decodeTableMap(const u_char str, const char *table)$/;"	f
+etag	./build/include/extra/httppack.h	/^	std::string etag;$/;"	m	struct:RESPONSE_HEADER
 etag	./extra/httppack.h	/^	std::string etag;$/;"	m	struct:RESPONSE_HEADER
+expect	./build/include/extra/httppack.h	/^	std::string expect;$/;"	m	struct:REQUEST_HEADER
 expect	./extra/httppack.h	/^	std::string expect;$/;"	m	struct:REQUEST_HEADER
+extension_method	./build/include/extra/httppack.h	/^	extension_method, $/;"	e	enum:method
 extension_method	./extra/httppack.h	/^	extension_method, $/;"	e	enum:method
+from	./build/include/extra/httppack.h	/^	std::string from;$/;"	m	struct:REQUEST_HEADER
 from	./extra/httppack.h	/^	std::string from;$/;"	m	struct:REQUEST_HEADER
+host	./build/include/extra/httppack.h	/^	std::string host;$/;"	m	struct:REQUEST_HEADER
 host	./extra/httppack.h	/^	std::string host;$/;"	m	struct:REQUEST_HEADER
+ifMatch	./build/include/extra/httppack.h	/^	std::string ifMatch;$/;"	m	struct:REQUEST_HEADER
 ifMatch	./extra/httppack.h	/^	std::string ifMatch;$/;"	m	struct:REQUEST_HEADER
 is_little_endian	./core/common.c	/^is_little_endian() {$/;"	f
+location	./build/include/extra/httppack.h	/^	std::string location;$/;"	m	struct:RESPONSE_HEADER
 location	./extra/httppack.h	/^	std::string location;$/;"	m	struct:RESPONSE_HEADER
 main	./core/libnet.c	/^main()$/;"	f
 main	./test/test.c	/^main()$/;"	f
+method	./build/include/extra/httppack.h	/^	std::string method;$/;"	m	struct:HEADER_LINE
+method	./build/include/extra/httppack.h	/^typedef enum method{$/;"	g
 method	./extra/httppack.h	/^	std::string method;$/;"	m	struct:HEADER_LINE
 method	./extra/httppack.h	/^typedef enum method{$/;"	g
 mhash	./core/common.c	/^mhash(const char* str, uint32_t len) {$/;"	f
 mt_random_mem	./core/common.c	/^mt_random_mem(u_char *mem, unsigned int len) {$/;"	f
+pragma	./build/include/extra/httppack.h	/^	std::string pragma;$/;"	m	struct:GENERAL_HEADER
 pragma	./extra/httppack.h	/^	std::string pragma;$/;"	m	struct:GENERAL_HEADER
 print_time	./core/common.c	/^print_time() {$/;"	f
+proxyAuthenticate	./build/include/extra/httppack.h	/^	std::string proxyAuthenticate;$/;"	m	struct:RESPONSE_HEADER
 proxyAuthenticate	./extra/httppack.h	/^	std::string proxyAuthenticate;$/;"	m	struct:RESPONSE_HEADER
-random	./core/common.c	/^random(int min, int max) {$/;"	f
+random_s	./core/common.c	/^random_s(int min, int max) {$/;"	f
+safeTable	./build/include/extra/base64.h	/^	const char *safeTable;$/;"	m	struct:Base64
 safeTable	./extra/base64.h	/^	const char *safeTable;$/;"	m	struct:Base64
 safe_base64_test	./test/test.c	/^safe_base64_test()$/;"	f
+table	./build/include/extra/base64.h	/^	const char *table;$/;"	m	struct:Base64
 table	./extra/base64.h	/^	const char *table;$/;"	m	struct:Base64
 timestamp	./core/common.c	/^timestamp() {$/;"	f
+trailer	./build/include/extra/httppack.h	/^	std::string trailer;$/;"	m	struct:GENERAL_HEADER
 trailer	./extra/httppack.h	/^	std::string trailer;$/;"	m	struct:GENERAL_HEADER
+u_char	./build/include/common.h	/^typedef unsigned char u_char;$/;"	t
 u_char	./core/common.h	/^typedef unsigned char u_char;$/;"	t
+upgrade	./build/include/extra/httppack.h	/^	std::string upgrade;$/;"	m	struct:GENERAL_HEADER
 upgrade	./extra/httppack.h	/^	std::string upgrade;$/;"	m	struct:GENERAL_HEADER
+uri	./build/include/extra/httppack.h	/^	std::string uri;$/;"	m	struct:HEADER_LINE
 uri	./extra/httppack.h	/^	std::string uri;$/;"	m	struct:HEADER_LINE
 uuid	./core/common.c	/^uuid(char *_uuid) {$/;"	f
+version	./build/include/extra/httppack.h	/^	std::string version;$/;"	m	struct:HEADER_LINE
 version	./extra/httppack.h	/^	std::string version;$/;"	m	struct:HEADER_LINE
+via	./build/include/extra/httppack.h	/^	std::string via;$/;"	m	struct:GENERAL_HEADER
 via	./extra/httppack.h	/^	std::string via;$/;"	m	struct:GENERAL_HEADER
+warning	./build/include/extra/httppack.h	/^	std::string warning;$/;"	m	struct:GENERAL_HEADER
 warning	./extra/httppack.h	/^	std::string warning;$/;"	m	struct:GENERAL_HEADER

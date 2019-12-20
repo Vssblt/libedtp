@@ -5,12 +5,12 @@ OUTFILE = ../build/
 O = \
 	$(OUTFILE)/common.o \
 
-all: checkdir libw
+all: checkdir libnet
 
 checkdir: 
 	mkdir -p $(OUTFILE)
 
-libw: $(OUTFILE) $(O)
+libnet: $(OUTFILE) $(O)
 	ar rcs $(OUTFILE)/libw.a  $(O)
 
 $(OUTFILE)/common.o:  common.c
