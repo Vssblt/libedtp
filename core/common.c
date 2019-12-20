@@ -32,18 +32,22 @@ random_s(int min, int max, int *err)
 	int ret = random_mem((u_char*)&r, sizeof(r));
 	if (err == NULL) {
 		if (ret == -1) {
-			return 0;
+			goto ret_zero;
 		} else {
-			return (u_char)r % (max - min) + min;
+			goto ret_int;
 		}
 	} else {
 		*err = ret;
 		if (ret != -1) {
-			return (u_char)r % (max - min) + min;
+			goto ret_int;
 		} else {
-			return 0;
+			goto ret_zero
 		}
 	}
+
+ret_int:   return (u_char)r % (max - min) + min;
+ret_zero:  return 0;
+
 }
 
 int
