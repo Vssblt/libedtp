@@ -18,14 +18,16 @@
 #endif /*_WIN32*/
 
 uint32_t
-timestamp() {
+timestamp() 
+{
 	time_t t = time(NULL);
 	uint32_t ii = (uint32_t)time(&t);
 	return ii;
 }
 
 int
-random_s(int min, int max, int *err) {
+random_s(int min, int max, int *err) 
+{
 	int r = 0;
 	int ret = random_mem((u_char*)&r, sizeof(r));
 	if (err == NULL) {
@@ -45,7 +47,8 @@ random_s(int min, int max, int *err) {
 }
 
 int
-is_little_endian() {
+is_little_endian() 
+{
 	union w
 	{
 		int a;
@@ -56,11 +59,12 @@ is_little_endian() {
 }
 
 uint32_t
-mhash(const char* str, uint32_t len) {
+mhash(const char* str, uint32_t len) 
+{
 	uint32_t hash = 0;
 	uint32_t x = 0;
 	uint32_t i = 0;
-	for (i = 0; i < len; str++, i++){
+	for (i = 0; i < len; str++, i++) {
 		hash = (hash << 4) + (*str);
 		if ((x = hash & 0xF0000000L) != 0){
 			hash ^= (x >> 24);
@@ -71,7 +75,8 @@ mhash(const char* str, uint32_t len) {
 }
 
 void
-print_time() {
+print_time() 
+{
 	time_t rawtime;
 	struct tm * timeinfo;
 	char buffer[128];
@@ -82,7 +87,8 @@ print_time() {
 }
 
 int
-random_mem(u_char *mem, uint32_t len) {
+random_mem(u_char *mem, uint32_t len) 
+{
 	int i = -1;
 #ifdef _WIN32
   #ifdef _WIN32_WCE
@@ -106,7 +112,8 @@ random_mem(u_char *mem, uint32_t len) {
 }
 
 void
-bin2hex(const u_char *data, uint32_t size, char *out) {
+bin2hex(const u_char *data, uint32_t size, char *out) 
+{
 	for (uint32_t i = 0; i < size; i++){
 		u_char low = (u_char)((u_char)(data[i] << 4) >> 4);
 		u_char high = (u_char)(data[i] >> 4);
@@ -124,7 +131,8 @@ bin2hex(const u_char *data, uint32_t size, char *out) {
 }
 
 void
-uuid(char *_uuid) {
+uuid(char *_uuid) 
+{
 	int line[] = {12, 16, 20, 24,};
 	u_char *data = (u_char *)malloc(16);
 	random_mem(data, 16);
