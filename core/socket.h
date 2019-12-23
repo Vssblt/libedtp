@@ -1,16 +1,16 @@
-#ifndef LIBNET_SOCKET_H
-#define LIBNET_SOCKET_H
+#ifndef LIBEDTP_SOCKET_H
+#define LIBEDTP_SOCKET_H
 
-int ln_con();
+int le_con();
 
-int ln_send();
+int le_send();
 
-int ln_recv();
+int le_recv();
 
-int ln_is_con();
+int le_is_con();
 
-int ln_ping();
+int le_ping();
 
-int ln_listen();
+int le_listen();
 
 #endif

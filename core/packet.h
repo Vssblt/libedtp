@@ -1,5 +1,5 @@
-#ifndef LIBNET_PACKET_H
-#define LIBNET_PACKET_H
+#ifndef LIBEDTP_PACKET_H
+#define LIBEDTP_PACKET_H
 
 #endif
 

@@ -18,4 +18,4 @@
 *.swp
 
 /build/
-/test/libnet-test
+/test/libedtp-test

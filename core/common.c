@@ -41,7 +41,7 @@ random_s(int min, int max, int *err)
 		if (ret != -1) {
 			goto ret_int;
 		} else {
-			goto ret_zero
+			goto ret_zero;
 		}
 	}
 

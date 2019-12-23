@@ -1,4 +1,4 @@
-Libnet
+LibEDTP
 ======
 
 A Cross-platform library for building c++ socket applications.
@@ -10,8 +10,8 @@ A Cross-platform library for building c++ socket applications.
 > #### GCC(Linux)
 ```
 
-$ git clone https://github.com/Vssblt/libnet.git
-$ cd LibNet
+$ git clone https://github.com/Vssblt/libedtp.git
+$ cd libedtp
 $ make
 $ make test
 ```
@@ -20,7 +20,7 @@ $ make test
 > ### Visual Studio(Windows)
 ```
 
-$ git clone https://github.com/Vssblt/libnet.git
-$ cd LibNet
+$ git clone https://github.com/Vssblt/libedtp.git
+$ cd libedtp
 $ ./sln
 ```

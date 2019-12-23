@@ -1,20 +1,20 @@
 COMMON = -w -O2 -I../core/ $(Mco)
 LINKLIB = 
 OUTFILE = ../build
-LINKLIB = -lnet -L../build/
+LINKLIB = -ledtp -L../build/
 
 O = \
 	$(OUTFILE)/httppack.o \
 	$(OUTFILE)/httpunpack.o \
 	$(OUTFILE)/base64.o \
 
-all: checkdir libnet-extra
+all: checkdir libedtp-extra
 
 checkdir: 
 	mkdir -p $(OUTFILE)
 
-libnet-extra: $(OUTFILE) $(O)
-	ar rcs $(OUTFILE)/libnet-extra.a  $(O)
+libedtp-extra: $(OUTFILE) $(O)
+	ar rcs $(OUTFILE)/libedtp-extra.a  $(O)
 
 $(OUTFILE)/httppack.o:  httppack.c
 	$(CXX) -c $<  -o $@ $(COMMON) $(INCLUDE) $(LINKLIB)
