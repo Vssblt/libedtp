@@ -1,6 +1,6 @@
 COMMON = -W -Wall -O2 $(Mco)
 
-OUTFILE = ../build/
+OUTFILE = ../build
 
 O = \
 	$(OUTFILE)/common.o \

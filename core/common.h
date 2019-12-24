@@ -6,6 +6,8 @@
 
 typedef unsigned char u_char;
 
+static int edtp_type[65536] = {0};
+
 uint32_t timestamp();
 
 int random_s(int min, int max, int *err);

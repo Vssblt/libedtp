@@ -1,16 +1,15 @@
 #ifndef LIBEDTP_SOCKET_H
 #define LIBEDTP_SOCKET_H
 
-int le_con();
+int le_con(const char *ip, int port);
 
-int le_send();
+int le_write(int fd_sock, const char *buff, size_t size);
 
-int le_recv();
+int le_read(int fd_sock, char *buff, size_t size);
 
-int le_is_con();
+int le_ping(const char *ip);
 
-int le_ping();
+int le_listen(int port, int backlog = 256);
 
-int le_listen();
 
 #endif
