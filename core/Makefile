@@ -3,9 +3,7 @@ COMMON = -W -Wall -O2 $(Mco)
 OUTFILE = ../build
 
 O = \
-	$(OUTFILE)/common.o \
-	$(OUTFILE)/socket.o \
-	$(OUTFILE)/packet.o \
+	$(OUTFILE)/core.o \
 
 all: checkdir libedtp
 
@@ -15,5 +13,5 @@ checkdir:
 libedtp: $(OUTFILE) $(O)
 	ar rcs $(OUTFILE)/libedtp.a  $(O)
 
-$(OUTFILE)/common.o:  common.c socket.c packet.c
+$(OUTFILE)/core.o:  common.c socket.c packet.c rbtree.c libedtp.c thread.c
 	$(CXX) -c $<  -o $@ $(COMMON) $(INCLUDE)

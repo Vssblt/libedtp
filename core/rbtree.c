@@ -2,23 +2,9 @@
 
 #include <malloc.h>
 
-//#define INPUT_DATA
-
-#ifdef __GNUC__
-#define max(x, y) ({ \
-	typeof(x) _max1 = (x); \
-	typeof(y) _max2 = (y); \
-	(void)(&_max1 == &_max2); \
-	_max1 > _max2 ? _max1 :_max2; \
-})
-#else
-#define max(x, y) ({ \
-	x > y ? x : y; \
-})
-#endif
-
 typedef struct Tree{
 	int data;
+	char *value;
 	struct Tree *left;
 	struct Tree *right;
 	struct Tree *parent;

@@ -4,6 +4,20 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#ifdef __GNUC__
+#define max(x, y) ({ \
+	typeof(x) _max1 = (x); \
+	typeof(y) _max2 = (y); \
+	(void)(&_max1 == &_max2); \
+	_max1 > _max2 ? _max1 :_max2; \
+})
+#else
+#define max(x, y) ({ \
+	x > y ? x : y; \
+})
+#endif
+
+
 typedef unsigned char u_char;
 
 static int edtp_type[65536] = {0};
