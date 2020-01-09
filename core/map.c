@@ -4,21 +4,30 @@
 void 
 map_insert(EdtpMap *map, const char *key, const char *value)
 {
-	tree_add(map, key, value);
+
+	tree_search(key);
+	(*map)->root = tree_add(, key, value);
 }
 
 void map_erase(EdtpMap *map, const MapElement *element)
 {
-	tree_del(map, key, element);
+	(*map)->root = tree_del(, key, element);
 }
 
-MapElement map_begin(EdtpMap *map)
+MapElement 
+map_begin(EdtpMap *map)
 {
-	return tree_first(map);
+	return tree_first((*map)->root);
 }
 
-MapElement map_end(EdtpMap *map)
+MapElement 
+map_end(EdtpMap *map)
 {
-	return tree_last(map);
+	return tree_last((*map)->root);
 }
 
+MapElement 
+map_next(EdtpMap *map)
+{
+	return tree_next((*map)->root);
+}

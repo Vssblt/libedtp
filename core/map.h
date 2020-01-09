@@ -5,6 +5,7 @@ typedef MapElement;
 
 typedef struct EdtpMap {
 	MapElement *root;
+	MapElement *pointer;
 	int size;
 };
 
@@ -15,5 +16,7 @@ void map_erase(EdtpMap *map, const MapElement *element);
 MapElement map_begin(EdtpMap *map);
 
 MapElement map_end(EdtpMap *map);
+
+MapElement map_next(EdtpMap *map);
 
 #endif

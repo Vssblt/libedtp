@@ -10,6 +10,8 @@ typedef struct MapElement{
 	int color;
 };
 
+void tree_add(EdtpMap *)
+
 
 
 #endif
