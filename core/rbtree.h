@@ -1,7 +1,7 @@
 #ifndef RBTREE_H
 #define RBTREE_H
 
-typedef struct map{
+typedef struct MapElement{
 	char *key;
 	char *value;
 	struct Tree *left;
@@ -9,6 +9,7 @@ typedef struct map{
 	struct Tree *parent;
 	int color;
 };
+
 
 
 #endif
