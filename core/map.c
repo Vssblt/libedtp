@@ -2,32 +2,49 @@
 #include "rbtree.h"
 
 void 
-map_insert(EdtpMap *map, const char *key, const char *value)
+delete_map(EdtpMap *map)
 {
-
-	tree_search(key);
-	(*map)->root = tree_add(, key, value);
+	delete_tree(map);
 }
 
-void map_erase(EdtpMap *map, const MapElement *element)
+char * 
+map_value(EdtpMap *map, const char *key)
 {
-	(*map)->root = tree_del(, key, element);
+	return tree_search(map, key);
+}
+
+void 
+map_insert(EdtpMap *map, const char *key, const char *value)
+{
+	map->root = tree_add(map->root, key, value);
+}
+
+void
+map_set(EdtpMap *map, const char *key, const char *value)
+{
+	map_insert(map, key, value);
+}
+
+void 
+map_erase(EdtpMap *map, MapElement *element)
+{
+	map->root = tree_del(map->root, key, element);
 }
 
 MapElement 
 map_begin(EdtpMap *map)
 {
-	return tree_first((*map)->root);
+	return tree_first(map->root);
 }
 
 MapElement 
 map_end(EdtpMap *map)
 {
-	return tree_last((*map)->root);
+	return tree_last(map->root);
 }
 
 MapElement 
-map_next(EdtpMap *map)
+map_next(MapElement *element)
 {
-	return tree_next((*map)->root);
+	return tree_next(map->root);
 }
