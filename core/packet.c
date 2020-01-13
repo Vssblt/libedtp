@@ -2,6 +2,8 @@
 #include "socket.h"
 #include "thread.h"
 
+size_t read_sizeof(int fd_sock)
+
 int
 listen(int port, void *callback, int backlog)
 {
@@ -44,5 +46,12 @@ read_type(int fd_sock)
 size_t
 read_sizeof(int fd_sock)
 {
+	return 0;
+}
+
+void
+struct_register(const char *id, const char *member_length)
+{
+
 	return 0;
 }
