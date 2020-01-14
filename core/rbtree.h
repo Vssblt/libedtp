@@ -20,7 +20,7 @@ MapElement tree_last(EdtpMap *root);
 
 MapElement tree_next(MapElement *root);
 
-char *tree_search(EdtpMap *map, const char *key);
+int tree_search(EdtpMap *map, const char *key);
 
 void delete_tree(EdtpMap *map);
 
