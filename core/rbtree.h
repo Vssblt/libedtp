@@ -13,13 +13,13 @@ typedef struct MapElement{
 
 void tree_add(MapElement *root, const char *key, const char *value);
 
-void tree_del(MapElement *root, const char *key, MapElement *element);
+void tree_del(MapElement *root, const char *key);
 
 MapElement tree_first(EdtpMap *root);
 
 MapElement tree_last(EdtpMap *root);
 
-MapElement tree_next(MapElement *root);
+MapElement tree_next(MapElement *node);
 
 int tree_search(EdtpMap *map, const char *key);
 

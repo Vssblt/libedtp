@@ -16,6 +16,8 @@ void map_set(EdtpMap *map, const char *key, const char *value);
 
 void map_erase(EdtpMap *map, const MapElement *element);
 
+void map_erase(EdtpMap *map, const char *key);
+
 MapElement map_begin(EdtpMap *map);
 
 MapElement map_end(EdtpMap *map);

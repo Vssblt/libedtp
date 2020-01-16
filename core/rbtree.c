@@ -5,23 +5,30 @@ static void rotate34(MapElement *a, MapElement *b, MapElement *c, MapElement *t0
 
 static void add_rebalance(MapElement *node, MapElement *parent, MapElement *grandpa, MapElement *uncle);
 
-static int search_element(const char *key, MapElement **node, MapElement *root);
+static int search(const char *key, MapElement **node, MapElement *root);
+
+static void add(MapElement *root, const char *key, const char *value);
+
+static void del_rebalance(MapElement *node);
+
+static int del(const char *key, MapElement *root);
 
 void 
 tree_add(MapElement *root, const char *key, const char *value)
 {
-
+	add(root, key, value);
 }
 
 void 
-tree_del(MapElement *root, const char *key, MapElement *element)
+tree_del(MapElement *root, const char *key)
 {
-
+	del(key, root);
 }
 
 MapElement 
 tree_first(EdtpMap *root)
 {
+	return root->root;
 }
 
 MapElement 
@@ -30,8 +37,9 @@ tree_last(EdtpMap *root)
 }
 
 MapElement 
-tree_next(MapElement *root)
+tree_next(MapElement *node)
 {
+	//root->right;
 }
 
 lestring
@@ -39,7 +47,7 @@ tree_search(EdtpMap *map, const char *key)
 {
 	lestring ret = {.str = NULL, .size = 0};
 	MapElement *node = NULL;
-	int ret = search_element(key, &node, map->root);
+	int ret = search(key, &node, map->root);
 	if (ret == 0) {
 		lestring_copy(&ret, MapElement->value, MapElement->value_size, COPY_AND_NEW);
 	}
@@ -76,7 +84,7 @@ rotate34(MapElement *a, MapElement *b, MapElement *c, MapElement *t0, MapElement
 }	
 
 int
-search_element(const char *key, MapElement **node, MapElement *root)
+search(const char *key, MapElement **node, MapElement *root)
 {
 	MapElement *pointer = root, *parent = NULL;
 	while (pointer != NULL) {
@@ -103,7 +111,7 @@ add_rebalance(MapElement *node, MapElement *parent, MapElement *grandpa, MapElem
 			if (uncle->color == 1)
 				yesorno = 1;
 		}
-		if (yesorno) {     
+		if (yesorno) {
 			grandpa->color = 1;
 			parent->color = 0;
 			uncle->color = 0;
@@ -172,4 +180,222 @@ add_rebalance(MapElement *node, MapElement *parent, MapElement *grandpa, MapElem
 		grandpa = parent->parent;
 		uncle = (parent == grandpa->left ? grandpa->right : grandpa->left);
 	} while (node->parent->color == 1 && node->color == 1);
+}
+
+void 
+add(MapElement *root, const char *key, const char *value, int value_size)
+{
+	MapElement *search_temp = NULL;
+	MapElement *parent = NULL;
+	if (root == NULL) {
+		root = (MapElement *)malloc(sizeof(MapElement));
+		root->parent = NULL;
+		root->key = (char *)malloc(strlen(key));
+		root->value = (char *)malloc(value_size);
+		memcpy(root->key, key, strlen(key));
+		memcpy(root->value, value, value_size);
+		root->value_size = value_size;
+		root->left = NULL;
+		root->right = NULL;
+		root->color = 0;
+		return ;
+	}
+
+	if (0 == search(key, &parent, root)) {
+		return ;
+	}
+
+	MapElement *node = (MapElement *)malloc(sizeof(MapElement));
+	node->color = 1;
+	node->parent = parent;
+	node->left = NULL;
+	node->right = NULL;
+	node->value = (char *)malloc(value_size);
+	node->key = (char *)malloc(strlen(key));
+	memcpy(node->value, value, value_size);
+	memcpy(node->key, key, strlen(key));
+	node->value_size = value_size;
+
+	if (parent->color == 0) {
+		if (strcmp(parent->key, key) > 0)
+			parent->left = node;
+		else 
+			parent->right = node;
+		return ;
+	}
+
+	MapElement *grandpa = parent->parent;
+	MapElement *uncle = (parent == grandpa->left ? grandpa->right : grandpa->left);
+
+	if (strcmp(node->value, parent->value) > 0)
+		parent->right = node;
+	else
+		parent->left = node;
+
+	add_rebalance(node, parent, grandpa, uncle);
+
+	return ;
+}
+
+void 
+del_rebalance(MapElement *node)
+{
+	MapElement *parent = node->parent;
+	MapElement *brother = (parent->left == node ? parent->right : parent->left);
+
+	if (brother->color == 1) {
+		int temp_color = 0;
+		temp_color = parent->color;
+		parent->color = brother->color;
+		brother->color = temp_color;
+
+		if (parent == root)
+			root = brother;
+		
+		if (parent->parent->left == parent)
+			parent->parent->left = brother;
+		else
+			parent->parent->right = brother;
+		
+		if (parent->left == node) {
+			rotate34(parent, brother, brother->right, node, brother->left, brother->right->left, brother->right->right, 0);
+		} else {
+			rotate34(brother->left, brother, parent, brother->left->left, brother->left->right, brother->right, node, 0);
+		}
+		brother = (parent->left == node ? parent->right : parent->left);
+	}
+
+	int temp_color = 0;
+	if (parent->left == node && brother->left != brother->right) {
+		if (brother->left != NULL) { //RL
+			if (parent == root)
+				root = brother->left;
+			brother->left->color = parent->color;
+			parent->color = 0;
+			
+			if (parent->parent->left == parent)
+				parent->parent->left = brother->left;
+			else
+				parent->parent->right = brother->left;
+			rotate34(parent, brother->left, brother, node, brother->left, brother->right, brother->right, 0);
+		} else { //RR
+			temp_color = parent->color;
+			parent->color = brother->color;
+			brother->color = temp_color;
+			brother->right->color = 0;
+			if (parent == root)
+				root = brother;
+
+
+			if (parent->parent->left == parent)
+				parent->parent->left = brother;
+			else
+				parent->parent->right = brother;
+			rotate34(parent, brother, brother->right, node, brother->left, brother->right->left, brother->right->right, 0);
+		}
+	} else if (parent->right == node && brother->left != brother->right) {
+		if (brother->left != NULL) { //LL
+			if (parent == root)
+				root = brother;
+			temp_color = parent->color;
+			parent->color = brother->color;
+			brother->color = temp_color;
+			brother->left->color = 0;
+
+			if (parent->parent->left == parent)
+				parent->parent->left = brother;
+			else
+				parent->parent->right = brother;
+			rotate34(brother->left, brother, parent, brother->left, brother->right, brother->right, node, 0);
+		} else { //LR
+			if (parent == root)
+				root = brother->right;
+			brother->right->color = parent->color;
+			parent->color = 0;
+
+			if (parent->parent->left == parent)
+				parent->parent->left = brother->right;
+			else
+				parent->parent->right = brother->right;
+			rotate34(brother, brother->right, parent, brother->left, brother->right->left, brother->right->right, node, 0);
+		}
+	} else if (brother->left == brother->right) {
+		if (parent->color == 0) {
+			brother->color = 1;
+		} else {
+			parent->color = 0;
+			brother->color = 1;
+		}
+	}
+}
+
+int
+del(const char *key, MapElement *root)
+{
+	Tree *node = NULL;
+	Tree *child = NULL;
+	Tree *parent = NULL;
+
+	if (1 == search(key, &node, root)) {
+		return 0;
+	}
+	parent = node->parent;
+
+	if (node->left != NULL && node->right != NULL) { 
+		Tree *pointer = node->left;
+		while(pointer->right != NULL) {
+			pointer = pointer->right;
+		}
+		free(node->value);
+		free(node->key);
+		node->value = (char *)malloc(pointer->value_size);
+		node->key = (char *)malloc(strlen(pointer->key));
+		memcpy(node->value, pointer->value, pointer->value_size);
+		memcpy(node->key, pointer->key, strlen(pointer->key));
+		node = pointer;
+		parent = node->parent;
+	}
+
+	if (node->left != node->right) { 
+		if (node->left != NULL)
+			child = node->left;
+		else
+			child = node->right;
+
+		if (parent != NULL) {
+			if (node == parent->left)
+				parent->left = child;
+			else
+				parent->right = child;
+		} else {
+			root = child;
+		}
+		child->color = 0;
+		child->parent = parent;
+
+	}
+	if (node->left == node->right) { 
+		if (parent == NULL) {
+			root = NULL;
+			free_element(node);
+			return 0;
+		}
+		if (node->color == 0) {
+			del_rebalance(node);
+		}
+		if (parent->left == node)
+			parent->left = NULL;
+		else
+			parent->right = NULL;
+	}
+	free_element(node);
+	return 0;
+}
+
+void 
+free_element(MapElement *node)
+{
+	free(node->value);
+	free(node->key);
+	free(node);
 }

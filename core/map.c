@@ -28,7 +28,13 @@ map_set(EdtpMap *map, const char *key, const char *value)
 void 
 map_erase(EdtpMap *map, MapElement *element)
 {
-	map->root = tree_del(map->root, key, element);
+	map->root = tree_del(map->root, element->key);
+}
+
+void
+map_erase(EdtpMap *map, const char *key)
+{
+	map->root = tree_del(map->root, key);
 }
 
 MapElement 
