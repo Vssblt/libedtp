@@ -2,6 +2,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <malloc.h>
+#include <string.h>
 
 #ifdef _WIN32
   #include <windows.h>
@@ -157,4 +158,39 @@ uuid(char *_uuid)
 		_uuid[i + 4 - j] = _uuid[i];
 	}
 	free(data);
+}
+
+void 
+lestring_copy(lestring *dst, lestring *srt, int type)
+{
+	if (type == COPY) {
+		memcpy(dst->str, srt->str, srt->size);
+		dst->size = srt->size;
+	} else if (type == COPY_AND_NEW) {
+		dst->str = (char *)malloc(sizeof(char) * srt->size);
+		dst->size = srt->size;
+		memcpy(dst->str, srt->str, srt->size);
+	}
+}
+
+void 
+lestring_copy(lestring *dst, const char *str, int size, int type)
+{
+	if (type == COPY) {
+		memcpy(dst->str, str, size);
+		dst->size = size;
+	} else if (type == COPY_AND_NEW) {
+		dst->str = (char *)malloc(sizeof(char) * size);
+		dst->size = size;
+		memcpy(dst->str, str, size);
+	}
+}
+
+void
+lestring_free(lestring *str)
+{
+	if (str->size != 0) {
+		free(str->str);
+		str->size = 0;
+	}
 }

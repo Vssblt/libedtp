@@ -4,6 +4,7 @@
 typedef struct MapElement{
 	char *key;
 	char *value;
+	int value_size;
 	struct Tree *left;
 	struct Tree *right;
 	struct Tree *parent;

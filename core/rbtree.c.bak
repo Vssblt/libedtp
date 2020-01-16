@@ -13,15 +13,11 @@ typedef struct Tree{
 
 Tree *root = NULL;
 
-int search(int data, Tree **node);
-
 void add(int data);
 
 void rotate34(Tree *a, Tree *b, Tree *c, Tree *t0, Tree *t1, Tree *t2, Tree *t3, int type);
 
 int tree_delete(int data);
-
-void LOG(Tree *root);
 
 void add_rebalance(Tree *node, Tree *parent, Tree *grandpa, Tree *uncle);
 
@@ -139,7 +135,7 @@ add_rebalance(Tree *node, Tree *parent, Tree *grandpa, Tree *uncle)
 			}
 			node = grandpa;
 	
-		} else {          
+		} else {
 			if (grandpa->left == parent && node->data > parent->data) { //LL
 				parent->parent = grandpa->parent;
 				if (grandpa->parent != NULL) {
