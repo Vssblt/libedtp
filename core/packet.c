@@ -1,8 +1,9 @@
 #include "packet.h"
 #include "socket.h"
 #include "thread.h"
+#include "common.h"
 
-size_t read_sizeof(int fd_sock)
+size_t read_sizeof(int fd_sock);
 
 int
 listen(int port, void *callback, int backlog)
@@ -17,7 +18,7 @@ listen(int port, void *callback, int backlog)
 size_t 
 read_block(int fd_sock, void *buff, size_t max_size)
 {
-	while (!ready_read());// sleep(1);
+	while (!ready_read(fd_sock));// sleep(1);
 	int type = read_type(fd_sock);
 	if (type > 65535 || type < 0) {
 		return 0;
@@ -26,7 +27,7 @@ read_block(int fd_sock, void *buff, size_t max_size)
 		return 0;
 	}
 
-	return le_read(fd_sock, (char *)buff, min(max_size, edtp_type[type]));
+	return le_read(fd_sock, (char *)buff, min(max_size, (size_t)(edtp_type[type])));
 }
 
 int
@@ -53,5 +54,6 @@ void
 struct_register(const char *id, const char *member_length)
 {
 
-	return 0;
 }
+
+

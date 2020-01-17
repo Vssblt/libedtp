@@ -2,11 +2,7 @@
 #define LIBEDTP_MAP_H
 
 typedef MapElement;
-
-typedef struct EdtpMap {
-	MapElement *root;
-	int size;
-};
+typedef EdtpMap;
 
 char *map_value(EdtpMap *map, const char *key);
 

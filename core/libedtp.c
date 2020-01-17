@@ -1,8 +1,9 @@
-#include <libedtp.h>
-#include <common.h>
+#include "libedtp.h"
+#include "common.h"
 
-void
+int
 main()
 {
 
+	return 0;
 }

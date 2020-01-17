@@ -11,6 +11,11 @@ typedef struct MapElement{
 	int color;
 };
 
+typedef struct EdtpMap {
+	MapElement *root;
+	int size;
+};
+
 void tree_add(MapElement *root, const char *key, const char *value);
 
 void tree_del(MapElement *root, const char *key);

@@ -1,4 +1,4 @@
-#include <rbtree.h>
+#include "rbtree.h"
 #include <malloc.h>
 
 static void rotate34(MapElement *a, MapElement *b, MapElement *c, MapElement *t0, MapElement *t1, MapElement *t2, MapElement *t3, int type);
@@ -25,21 +25,36 @@ tree_del(MapElement *root, const char *key)
 	del(key, root);
 }
 
-MapElement 
+MapElement *
 tree_first(EdtpMap *root)
 {
-	return root->root;
+	MapElement *pointer = root->root;
+	while (pointer->left) pointer = pointer->left;
+	return pointer;
 }
 
-MapElement 
+MapElement *
 tree_last(EdtpMap *root)
 {
+	MapElement *pointer = root->root;
+	while (pointer->right) pointer = pointer->right;
+	return pointer;
 }
 
-MapElement 
+MapElement *
 tree_next(MapElement *node)
 {
-	//root->right;
+	if (node->right) {
+		node = node->right;
+		while (node->left)
+			node = node->left;
+	} else {
+		if (node->parent == NULL || node->parent->left != node)
+			return NULL;
+		else 
+			return node->parent;
+	}
+	return node;
 }
 
 lestring

@@ -1,6 +1,8 @@
 #ifndef LIBEDTP_SOCKET_H
 #define LIBEDTP_SOCKET_H
 
+#include <stddef.h>
+
 int le_con(const char *ip, int port);
 
 int le_write(int fd_sock, const char *buff, size_t size);

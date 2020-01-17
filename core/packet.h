@@ -1,5 +1,6 @@
 #ifndef LIBEDTP_PACKET_H
 #define LIBEDTP_PACKET_H
+#include <stddef.h>
 
 /* This function listen on a port to accept connection requests.
  * Callback is a function pointer, if function listen successful 
@@ -23,11 +24,9 @@ void struct_register(const char *id, const char *member_length);
 
 size_t read_sizeof(int fd_sock);
 
-static struct struct_table {
+struct Struct_Table {
 //	const 
-
-
-
-}
+};
+static struct Struct_Table struct_table;
 #endif
 
