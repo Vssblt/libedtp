@@ -1,22 +1,24 @@
 #include "rbtree.h"
 #include <malloc.h>
+#include <string.h>
+#include "common.h"
 
 static void rotate34(MapElement *a, MapElement *b, MapElement *c, MapElement *t0, MapElement *t1, MapElement *t2, MapElement *t3, int type);
 
-static void add_rebalance(MapElement *node, MapElement *parent, MapElement *grandpa, MapElement *uncle);
+static void add_rebalance(MapElement root, MapElement *node, MapElement *parent, MapElement *grandpa, MapElement *uncle);
 
 static int search(const char *key, MapElement **node, MapElement *root);
 
-static void add(MapElement *root, const char *key, const char *value);
+static void add(MapElement *root, const char *key, const char *value, int value_size);
 
-static void del_rebalance(MapElement *node);
+static void del_rebalance(MapElement *node, MapElement *root);
 
 static int del(const char *key, MapElement *root);
 
 void 
-tree_add(MapElement *root, const char *key, const char *value)
+tree_add(MapElement *root, const char *key, const char *value, int value_size)
 {
-	add(root, key, value);
+	add(root, key, value, value_size);
 }
 
 void 
@@ -60,13 +62,13 @@ tree_next(MapElement *node)
 lestring
 tree_search(EdtpMap *map, const char *key)
 {
-	lestring ret = {.str = NULL, .size = 0};
+	lestring ret_string = {.str = NULL, .size = 0};
 	MapElement *node = NULL;
 	int ret = search(key, &node, map->root);
 	if (ret == 0) {
-		lestring_copy(&ret, MapElement->value, MapElement->value_size, COPY_AND_NEW);
+		lestring_copy(&ret_string, node->value, node->value_size, COPY_AND_NEW);
 	}
-	return ret;
+	return ret_string;
 }
 
 void 
@@ -104,7 +106,7 @@ search(const char *key, MapElement **node, MapElement *root)
 	MapElement *pointer = root, *parent = NULL;
 	while (pointer != NULL) {
 		parent = pointer;
-		if (0 < strcmp(key, pointer->key) {
+		if (0 < strcmp(key, pointer->key)) {
 			pointer = pointer->right;
 		} else if (0 < strcmp(pointer->key, key)) {
 			pointer = pointer->left;
@@ -118,7 +120,7 @@ search(const char *key, MapElement **node, MapElement *root)
 }
 
 void 
-add_rebalance(MapElement *node, MapElement *parent, MapElement *grandpa, MapElement *uncle);
+add_rebalance(MapElement *root, MapElement *node, MapElement *parent, MapElement *grandpa, MapElement *uncle)
 {
 	do {
 		int yesorno = 0;
@@ -247,13 +249,13 @@ add(MapElement *root, const char *key, const char *value, int value_size)
 	else
 		parent->left = node;
 
-	add_rebalance(node, parent, grandpa, uncle);
+	add_rebalance(root, node, parent, grandpa, uncle);
 
 	return ;
 }
 
 void 
-del_rebalance(MapElement *node)
+del_rebalance(MapElement *node, MapElement *root)
 {
 	MapElement *parent = node->parent;
 	MapElement *brother = (parent->left == node ? parent->right : parent->left);
@@ -347,9 +349,9 @@ del_rebalance(MapElement *node)
 int
 del(const char *key, MapElement *root)
 {
-	Tree *node = NULL;
-	Tree *child = NULL;
-	Tree *parent = NULL;
+	MapElement *node = NULL;
+	MapElement *child = NULL;
+	MapElement *parent = NULL;
 
 	if (1 == search(key, &node, root)) {
 		return 0;
@@ -357,7 +359,7 @@ del(const char *key, MapElement *root)
 	parent = node->parent;
 
 	if (node->left != NULL && node->right != NULL) { 
-		Tree *pointer = node->left;
+		MapElement *pointer = node->left;
 		while(pointer->right != NULL) {
 			pointer = pointer->right;
 		}
@@ -396,7 +398,7 @@ del(const char *key, MapElement *root)
 			return 0;
 		}
 		if (node->color == 0) {
-			del_rebalance(node);
+			del_rebalance(node, root);
 		}
 		if (parent->left == node)
 			parent->left = NULL;

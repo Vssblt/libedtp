@@ -1,4 +1,4 @@
-COMMON = -W -Wall -O2 $(Mco)
+COMMON = -W -Wall -O2 $(Mco) 
 
 OUTFILE = ../build
 
@@ -14,4 +14,4 @@ libedtp: $(OUTFILE) $(O)
 	ar rcs $(OUTFILE)/libedtp.a  $(O)
 
 $(OUTFILE)/core.o:  common.c socket.c packet.c rbtree.c libedtp.c thread.c rbtree.c
-	$(CXX) $^ -o $@ $(COMMON) $(INCLUDE)
+	$(CXX) $^ -o $@ $(COMMON) $(INCLUDE) 

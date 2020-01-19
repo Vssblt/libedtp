@@ -24,8 +24,11 @@ void struct_register(const char *id, const char *member_length);
 
 size_t read_sizeof(int fd_sock);
 
-struct Struct_Table {
+size_t le_body_size(int);
+
+typedef struct Struct_Table {
 //	const 
+	int test;
 };
 static struct Struct_Table struct_table;
 #endif

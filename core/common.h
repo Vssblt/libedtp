@@ -56,6 +56,8 @@ void bin2hex(const u_char *data, uint32_t size, char *out);
 
 void uuid(char *_uuid);
 
-void lestring_copy(lestring dst, lestring srt);
+void lestring_copy(lestring *dst, lestring srt);
+
+void lestring_copy(lestring *dst, const char *str, int size, int type);
 
 #endif

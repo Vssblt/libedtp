@@ -4,9 +4,13 @@ void
 new_thread(void *func, void *arg)
 {
 	if (arg != NULL) {
-		func(arg);
+		//thread_func run = (thread_func)func;
+		//run(arg);
+		((thread_func)func)(arg);
 	} else {
-		func();
+		//thread_func_none_arg run = (thread_func_none_arg)func;
+		//run(arg);
+		((thread_func_none_arg)func)();
 	}
 
 }

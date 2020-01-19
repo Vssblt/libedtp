@@ -10,7 +10,7 @@ listen(int port, void *callback, int backlog)
 {
 	int fd_sock = le_listen(port, backlog);
 	if (callback != NULL && fd_sock != -1) {
-		new_thread(callback(fd_sock));
+		//new_thread(callback, &fd_sock);
 	}
 	return fd_sock;
 }
@@ -46,6 +46,12 @@ read_type(int fd_sock)
 
 size_t
 read_sizeof(int fd_sock)
+{
+	return 0;
+}
+
+size_t
+le_body_size(int)
 {
 	return 0;
 }

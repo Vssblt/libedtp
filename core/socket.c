@@ -16,21 +16,25 @@ int
 le_con(const char *ip, int port)
 {
     //return connect();
+    return 0;
 }
 
 int
 le_write(int fd_sock, const char *buff, size_t size)
 {
+	return 0;
 }
 
 int
 le_read(int fd_sock, char *buff, size_t size)
 {
+	return 0;
 }
 
 int
 le_ping(const char *ip)
 {
+	return 0;
 }
 
 int
@@ -38,7 +42,7 @@ le_listen(int port, int backlog)
 {
 #if defined __linux__ || defined __CYGWIN__
 	int fd_sock;
-	size_t addrlen;
+	socklen_t addrlen;
 	struct sockaddr_in addr;
 	addr.sin_family = AF_INET;
 	addr.sin_port = htons(port);
@@ -55,7 +59,7 @@ le_listen(int port, int backlog)
 	if (-1 == listen(fd_sock, backlog)) {
 		printf("libedtp: le_listen: socket listen error! ");
 	}
-	if (-1 == accept(fd_sock, (sockaddr *)&addr, addrlen)) {
+	if (-1 == accept(fd_sock, (sockaddr *)&addr, &addrlen)) {
 		printf("libedtp: le_listen: socket accept error!");
 	}
 	return fd_sock;
