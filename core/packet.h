@@ -26,7 +26,7 @@ size_t read_sizeof(int fd_sock);
 
 size_t le_body_size(int);
 
-typedef struct Struct_Table {
+struct Struct_Table {
 //	const 
 	int test;
 };

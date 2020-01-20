@@ -1,4 +1,4 @@
-COMMON = -W -Wall -O2 $(Mco) 
+COMMON = -W -Wall -O2 -Wno-unused-variable -Wno-unused-parameter $(Mco) 
 
 OUTFILE = ../build
 
@@ -13,5 +13,5 @@ checkdir:
 libedtp: $(OUTFILE) $(O)
 	ar rcs $(OUTFILE)/libedtp.a  $(O)
 
-$(OUTFILE)/core.o:  common.c socket.c packet.c rbtree.c libedtp.c thread.c rbtree.c
+$(OUTFILE)/core.o:  common.c socket.c packet.c rbtree.c libedtp.c thread.c map.c
 	$(CXX) $^ -o $@ $(COMMON) $(INCLUDE) 

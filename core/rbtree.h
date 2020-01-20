@@ -1,8 +1,11 @@
 #ifndef RBTREE_H
 #define RBTREE_H
+
+/* This file only cares about how to create a rb tree. Do not do anything else in this file. */
+
 #include "common.h"
 
-typedef struct MapElement{
+struct MapElement{
 	char *key;
 	char *value;
 	int value_size;
@@ -12,24 +15,19 @@ typedef struct MapElement{
 	int color;
 };
 
-typedef struct EdtpMap {
-	MapElement *root;
-	int size;
-};
+MapElement *tree_add(MapElement *root, const char *key, const char *value, int value_size);
 
-void tree_add(MapElement *root, const char *key, const char *value, int value_size);
+MapElement *tree_del(const MapElement *root, const char *key);
 
-void tree_del(MapElement *root, const char *key);
+MapElement *tree_first(const MapElement *root);
 
-MapElement *tree_first(EdtpMap *root);
+MapElement *tree_last(const MapElement *root);
 
-MapElement *tree_last(EdtpMap *root);
+MapElement *tree_next(const MapElement *node);
 
-MapElement *tree_next(MapElement *node);
+lestring tree_search(const MapElement *map, const char *key);
 
-lestring tree_search(EdtpMap *map, const char *key);
-
-void delete_tree(EdtpMap *map);
+void delete_tree(MapElement *map);
 
 void free_element(MapElement *node);
 

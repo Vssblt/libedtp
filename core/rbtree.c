@@ -5,46 +5,46 @@
 
 static void rotate34(MapElement *a, MapElement *b, MapElement *c, MapElement *t0, MapElement *t1, MapElement *t2, MapElement *t3, int type);
 
-static void add_rebalance(MapElement root, MapElement *node, MapElement *parent, MapElement *grandpa, MapElement *uncle);
+static void add_rebalance(MapElement *root, MapElement *node, MapElement *parent, MapElement *grandpa, MapElement *uncle);
 
-static int search(const char *key, MapElement **node, MapElement *root);
+static int search(const char *key, MapElement **node, const MapElement *root);
 
-static void add(MapElement *root, const char *key, const char *value, int value_size);
+static MapElement *add(MapElement *root, const char *key, const char *value, int value_size);
 
 static void del_rebalance(MapElement *node, MapElement *root);
 
-static int del(const char *key, MapElement *root);
+static MapElement *del(const char *key, MapElement *root);
 
-void 
+MapElement *
 tree_add(MapElement *root, const char *key, const char *value, int value_size)
 {
-	add(root, key, value, value_size);
+	return add(root, key, value, value_size);
 }
 
-void 
+MapElement *
 tree_del(MapElement *root, const char *key)
 {
-	del(key, root);
+	return del(key, root);
 }
 
 MapElement *
-tree_first(EdtpMap *root)
+tree_first(const MapElement *root)
 {
-	MapElement *pointer = root->root;
+	const MapElement *pointer = root;
 	while (pointer->left) pointer = pointer->left;
-	return pointer;
+	return (MapElement *)pointer;
 }
 
 MapElement *
-tree_last(EdtpMap *root)
+tree_last(const MapElement *root)
 {
-	MapElement *pointer = root->root;
+	const MapElement *pointer = root;
 	while (pointer->right) pointer = pointer->right;
-	return pointer;
+	return (MapElement *)pointer;
 }
 
 MapElement *
-tree_next(MapElement *node)
+tree_next(const MapElement *node)
 {
 	if (node->right) {
 		node = node->right;
@@ -56,15 +56,15 @@ tree_next(MapElement *node)
 		else 
 			return node->parent;
 	}
-	return node;
+	return (MapElement *)node;
 }
 
 lestring
-tree_search(EdtpMap *map, const char *key)
+tree_search(const MapElement *root, const char *key)
 {
 	lestring ret_string = {.str = NULL, .size = 0};
 	MapElement *node = NULL;
-	int ret = search(key, &node, map->root);
+	int ret = search(key, &node, root);
 	if (ret == 0) {
 		lestring_copy(&ret_string, node->value, node->value_size, COPY_AND_NEW);
 	}
@@ -72,7 +72,7 @@ tree_search(EdtpMap *map, const char *key)
 }
 
 void 
-delete_all_tree(EdtpMap *map)
+delete_tree(MapElement *root)
 {
 
 }
@@ -101,17 +101,18 @@ rotate34(MapElement *a, MapElement *b, MapElement *c, MapElement *t0, MapElement
 }	
 
 int
-search(const char *key, MapElement **node, MapElement *root)
+search(const char *key, MapElement **node, const MapElement *root)
 {
-	MapElement *pointer = root, *parent = NULL;
+	const MapElement *pointer = root;
+	MapElement *parent = NULL;
 	while (pointer != NULL) {
-		parent = pointer;
+		parent = (MapElement *)pointer;
 		if (0 < strcmp(key, pointer->key)) {
 			pointer = pointer->right;
 		} else if (0 < strcmp(pointer->key, key)) {
 			pointer = pointer->left;
 		} else {
-			*node = pointer;
+			*node = (MapElement *)pointer;
 			return 0;
 		}
 	}
@@ -199,10 +200,10 @@ add_rebalance(MapElement *root, MapElement *node, MapElement *parent, MapElement
 	} while (node->parent->color == 1 && node->color == 1);
 }
 
-void 
+MapElement *
 add(MapElement *root, const char *key, const char *value, int value_size)
 {
-	MapElement *search_temp = NULL;
+	const MapElement *search_temp = NULL;
 	MapElement *parent = NULL;
 	if (root == NULL) {
 		root = (MapElement *)malloc(sizeof(MapElement));
@@ -215,11 +216,11 @@ add(MapElement *root, const char *key, const char *value, int value_size)
 		root->left = NULL;
 		root->right = NULL;
 		root->color = 0;
-		return ;
+		return root;
 	}
 
 	if (0 == search(key, &parent, root)) {
-		return ;
+		return NULL;
 	}
 
 	MapElement *node = (MapElement *)malloc(sizeof(MapElement));
@@ -238,7 +239,7 @@ add(MapElement *root, const char *key, const char *value, int value_size)
 			parent->left = node;
 		else 
 			parent->right = node;
-		return ;
+		return root;
 	}
 
 	MapElement *grandpa = parent->parent;
@@ -251,7 +252,7 @@ add(MapElement *root, const char *key, const char *value, int value_size)
 
 	add_rebalance(root, node, parent, grandpa, uncle);
 
-	return ;
+	return root;
 }
 
 void 
@@ -346,7 +347,7 @@ del_rebalance(MapElement *node, MapElement *root)
 	}
 }
 
-int
+MapElement *
 del(const char *key, MapElement *root)
 {
 	MapElement *node = NULL;
@@ -354,7 +355,7 @@ del(const char *key, MapElement *root)
 	MapElement *parent = NULL;
 
 	if (1 == search(key, &node, root)) {
-		return 0;
+		return root;
 	}
 	parent = node->parent;
 
@@ -395,7 +396,7 @@ del(const char *key, MapElement *root)
 		if (parent == NULL) {
 			root = NULL;
 			free_element(node);
-			return 0;
+			return root;
 		}
 		if (node->color == 0) {
 			del_rebalance(node, root);
@@ -406,7 +407,7 @@ del(const char *key, MapElement *root)
 			parent->right = NULL;
 	}
 	free_element(node);
-	return 0;
+	return root;
 }
 
 void 

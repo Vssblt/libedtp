@@ -4,13 +4,13 @@
 void 
 delete_map(EdtpMap *map)
 {
-	delete_tree(map);
+	delete_tree(map->root);
 }
 
 char * 
 map_value(EdtpMap *map, const char *key)
 {
-	return tree_search(map, key);
+	return tree_search(map->root, key);
 }
 
 void 
@@ -22,7 +22,7 @@ map_insert(EdtpMap *map, const char *key, const char *value)
 void
 map_set(EdtpMap *map, const char *key, const char *value)
 {
-	map_insert(map, key, value);
+	map_insert(map->root, key, value);
 }
 
 void 
