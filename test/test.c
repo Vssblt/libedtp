@@ -1,8 +1,11 @@
 #include <common.h>
 #include <base64.h>
+#include <socket.h>
+#include <packet.h>
 #include <stdio.h>
 #include <malloc.h>
 #include <string.h>
+#include <unistd.h>
 #include <map.h>
 
 void base64_test();
@@ -10,6 +13,7 @@ void safe_base64_test();
 void random_s_test();
 void uuid_test();
 void map_test();
+void socket_test();
 
 int
 main()
@@ -19,7 +23,7 @@ main()
 	base64_test();
 	safe_base64_test();
 	map_test();
-
+	socket_test();
 	return 0;
 }
 
@@ -208,4 +212,13 @@ map_test()
 	}
 
 	return ;
+}
+
+void 
+socket_test()
+{
+	listen(25678);
+//	for (;;)
+//		sleep(1);
+
 }

@@ -6,9 +6,11 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
-#elif defined _WIN32
+#include <unistd.h>
+#elif defined _WIN32 
 #include <windows.h>
-#pragma comment(lib, "wsock32.lib")
+#include <winsock2.h>
+#pragma comment(lib, "ws2_32.lib")
 #endif
 
 
@@ -56,14 +58,56 @@ le_listen(int port, int backlog)
 	if (-1 == bind(fd_sock, (sockaddr *)&addr, addrlen) ) {
 		printf("libedtp: le_listen: socket bind error.");
 	}
-	if (-1 == listen(fd_sock, backlog)) {
-		printf("libedtp: le_listen: socket listen error! ");
-	}
-	if (-1 == accept(fd_sock, (sockaddr *)&addr, &addrlen)) {
-		printf("libedtp: le_listen: socket accept error!");
-	}
+//	if (-1 == listen(fd_sock, backlog)) { 				//listen will block the program.
+//		printf("libedtp: le_listen: socket listen error! ");
+//	}
+//	fd_sock= accept(fd_sock, (sockaddr *)&addr, &addrlen);
+//	if (fd_sock == -1) {
+//		printf("libedtp: le_listen: socket accept error!");
+//	}
 	return fd_sock;
-#elif defined _WIN32
+#elif defined _WIN32 						//not tested.
+	WSADATA wdata;
+	SOCKADDR_IN server_addr;
+	SOCKET server_socket;
+	int addr_len = sizeof(SOCKADDR_IN);
 
+	int status = WSAStartup(MAKEWORD(2, 0), &wdata);
+	if (status != 0)
+		return -1;
+
+	if (LOBYTE(wdata.wVersion) != 2 || HIBYTE(wdata.wVersin) != 0) {
+		WSACleanup();
+		return -1;
+	}
+
+	server_socket = socket(AF_INET, SOCK_STREAM, 0);
+
+	server_addr.sin_addr.S_un.S_addr = htonl(INADDR_ANY);
+	server_addr.sin_family = AF_INET;
+	server_addr.sin_port = htons(port);
+
+	bind(server_socket, (SOCKADDR *)server_addr, addr_len);
+	listen(server_socket, backlog);
+//	server_socket = accept(server_socket, &server_addr, &addr_len);
+	return (int)server_socket;
+#endif
+}
+
+void
+le_close(int fd_sock)
+{
+#if defined __linux__ || defined __CYGWIN__
+	close(fd_sock);
+#elif defined _WIN32
+	closesocket(fd_sock);
+#endif
+}
+
+void
+le_clean()
+{
+#if defined _WIN32
+	WSACleanup();
 #endif
 }

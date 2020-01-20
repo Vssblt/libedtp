@@ -19,7 +19,7 @@ int ready_read(int fd_sock);
 /* This function return a type of current block. */ 
 int read_type(int fd_sock);
 
-/**/
+/* If you want*/
 void struct_register(const char *id, const char *member_length);
 
 size_t read_sizeof(int fd_sock);
