@@ -3,11 +3,13 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <string.h>
+#include <map.h>
 
 void base64_test();
 void safe_base64_test();
 void random_s_test();
 void uuid_test();
+void map_test();
 
 int
 main()
@@ -16,6 +18,7 @@ main()
 	random_s_test();
 	base64_test();
 	safe_base64_test();
+	map_test();
 
 	return 0;
 }
@@ -162,4 +165,47 @@ safe_base64_test()
 	free(out);
 	free(text);
 	return;
+}
+
+void 
+map_test()
+{
+	printf("\nMap test begin: \n");
+	EdtpMap map = {NULL, 0};
+	map_insert(&map, "key1", "value1", -1);
+	map_insert(&map, "key2", "value2", -1);
+	map_insert(&map, "key3", "value3", -1);
+	lestring value1 = map_value(&map, "key1");
+	lestring value2 = map_value(&map, "key2");
+	lestring value3 = map_value(&map, "key3");
+	printf("value: %s, value len: %d\n", value1.str, value1.size);
+	printf("value: %s, value len: %d\n", value2.str, value2.size);
+	printf("value: %s, value len: %d\n", value3.str, value3.size);
+	map_set(&map, "key1", "reset_value1", -1);
+	value1 = map_value(&map, "key1");
+	printf("value: %s, value len: %d\n", value1.str, value1.size);
+	lestring test = map_value(&map, "none");
+	if (test.str == NULL)
+		printf("if none exist map_value will return empty lestring.\n");
+	map_erase(&map, "key2");
+	test = map_value(&map, "key2");
+	if (test.str == NULL) {
+		printf("key2: %s, value: %s\n", "NULL", "NULL");
+	} else {
+		printf("erase error! \n");
+	}
+
+	map_insert(&map, "key2", "value2", -1);
+	map_insert(&map, "key4", "value4", -1);
+	MapElement *begin = map_begin(&map);
+	MapElement *end = map_end(&map);
+	printf("\n");
+	printf("The first value of map: %s\n", begin->value);
+	printf("The last value of map: %s\n", end->value);
+	printf("\nprint whole map value: \n");
+	for (MapElement *i = map_begin(&map); i != NULL; i = map_next(i)) {
+		printf("%s\n", i->value);
+	}
+
+	return ;
 }

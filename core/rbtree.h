@@ -17,7 +17,7 @@ struct MapElement{
 
 MapElement *tree_add(MapElement *root, const char *key, const char *value, int value_size);
 
-MapElement *tree_del(const MapElement *root, const char *key);
+MapElement *tree_del(MapElement *root, const char *key);
 
 MapElement *tree_first(const MapElement *root);
 
