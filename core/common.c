@@ -98,10 +98,10 @@ random_mem(u_char *mem, uint32_t len)
 #ifdef _WIN32
   #ifdef _WIN32_WCE
 	int ret = CeGenRandom(len, (BYTE *)mem);
-	ret ? i = 0 : 0
+	ret ? i = 0 : 0;
   #else
 	int ret = RtlGenRandom(mem, (ULONG)len);
-	ret ? i = 0 : 0
+	ret ? i = 0 : 0;
   #endif	
 #else
   #if defined __linux__ || defined __CYGWIN__

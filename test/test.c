@@ -1,12 +1,12 @@
-#include <common.h>
-#include <base64.h>
-#include <socket.h>
-#include <packet.h>
+#include "common.h"
+#include "base64.h"
+#include "socket.h"
+#include "packet.h"
 #include <stdio.h>
 #include <malloc.h>
 #include <string.h>
-#include <unistd.h>
-#include <map.h>
+//#include <unistd.h>
+#include "map.h"
 
 void base64_test();
 void safe_base64_test();
@@ -54,7 +54,7 @@ base64_test()
 	printf("\nbase64 encode test: \n");
 
 	//Set text.
-	char *base64_in = "This is a test message.";
+	const char *base64_in = "This is a test message.";
 
 	//Calculated input and output size. 
 	size_t in_size = strlen(base64_in);
@@ -116,7 +116,7 @@ safe_base64_test()
 	printf("\nbase64 safe encode test: \n");
 
 	//Set text.
-	char *base64_in = "This is a test messages.";
+	const char *base64_in = "This is a test messages.";
 
 	//Calculated input and output size. 
 	size_t in_size = strlen(base64_in);

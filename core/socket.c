@@ -7,9 +7,9 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <unistd.h>
-#elif defined _WIN32 
-#include <windows.h>
+#elif defined _WIN32
 #include <winsock2.h>
+#include <windows.h>
 #pragma comment(lib, "ws2_32.lib")
 #endif
 
@@ -76,7 +76,7 @@ le_listen(int port, int backlog)
 	if (status != 0)
 		return -1;
 
-	if (LOBYTE(wdata.wVersion) != 2 || HIBYTE(wdata.wVersin) != 0) {
+	if (LOBYTE(wdata.wVersion) != 2 || HIBYTE(wdata.wVersion) != 0) {
 		WSACleanup();
 		return -1;
 	}
@@ -87,7 +87,7 @@ le_listen(int port, int backlog)
 	server_addr.sin_family = AF_INET;
 	server_addr.sin_port = htons(port);
 
-	bind(server_socket, (SOCKADDR *)server_addr, addr_len);
+	bind(server_socket, (SOCKADDR *)&server_addr, addr_len);
 	listen(server_socket, backlog);
 //	server_socket = accept(server_socket, &server_addr, &addr_len);
 	return (int)server_socket;

@@ -19,3 +19,7 @@
 
 /build/
 /test/libedtp-test
+
+*.layout
+*.win
+*.dev
