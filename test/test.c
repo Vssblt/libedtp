@@ -5,7 +5,9 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <string.h>
-//#include <unistd.h>
+#if defined __linux__ || defined __CYGWIN__
+#include <unistd.h>
+#endif
 #include "map.h"
 
 void base64_test();
@@ -218,7 +220,9 @@ void
 socket_test()
 {
 	listen(25678);
-//	for (;;)
-//		sleep(1);
+#if defined __linux__ || defined __CYGWIN__
+	for (;;)
+		sleep(1);
+#endif
 
 }

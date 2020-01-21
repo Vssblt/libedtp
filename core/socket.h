@@ -18,4 +18,10 @@ void le_clean();
 
 void le_close(int fd_sock);
 
+#if defined __CYGWIN__ || defined __linux__
+struct sockaddr_in le_accept(int *fd_sock, int type); 
+#elif defined _WIN32
+struct SOCKADDR_IN le_accept(int *fd_sock, int type);
+#endif
+
 #endif

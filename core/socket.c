@@ -58,13 +58,9 @@ le_listen(int port, int backlog)
 	if (-1 == bind(fd_sock, (sockaddr *)&addr, addrlen) ) {
 		printf("libedtp: le_listen: socket bind error.");
 	}
-//	if (-1 == listen(fd_sock, backlog)) { 				//listen will block the program.
-//		printf("libedtp: le_listen: socket listen error! ");
-//	}
-//	fd_sock= accept(fd_sock, (sockaddr *)&addr, &addrlen);
-//	if (fd_sock == -1) {
-//		printf("libedtp: le_listen: socket accept error!");
-//	}
+	if (-1 == listen(fd_sock, backlog)) { 				//listen will block the program.
+		printf("libedtp: le_listen: socket listen error! ");
+	}
 	return fd_sock;
 #elif defined _WIN32 						//not tested.
 	WSADATA wdata;
@@ -89,7 +85,6 @@ le_listen(int port, int backlog)
 
 	bind(server_socket, (SOCKADDR *)&server_addr, addr_len);
 	listen(server_socket, backlog);
-//	server_socket = accept(server_socket, &server_addr, &addr_len);
 	return (int)server_socket;
 #endif
 }
@@ -111,3 +106,29 @@ le_clean()
 	WSACleanup();
 #endif
 }
+
+#if defined __CYGWIN__ || defined __linux__
+struct sockaddr_in
+le_accept(int *fd_sock, int type)
+{
+	socklen_t addrlen;
+	struct sockaddr_in addr;
+	addrlen = sizeof(sockaddr_in);
+
+	*fd_sock = accept(*fd_sock, (sockaddr *)&addr, &addrlen);
+	if (*fd_sock == -1) {
+		printf("libedtp: le_listen: socket accept error!");
+		*fd_sock = -1;
+	}
+	return addr;
+}
+#elif defined _WIN32
+struct SOCKADDR_IN
+le_accept(int *fd_sock, int type)
+{
+	SOCKADDR_IN addr;
+	int addr_len = sizeof(SOCKADDR_IN);
+	server_socket = accept(*fd_sock, &addr, &addr_len);
+	return addr;
+}
+#endif

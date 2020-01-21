@@ -2,11 +2,17 @@
 #define LIBEDTP_PACKET_H
 #include <stddef.h>
 
-/* This function listen on a port to accept connection requests.
+/* This function listen on a port to accept connect requests.
  * Callback is a function pointer, if function listen successful 
- * and callback is not NULL, callback will be trigered in a new 
- * thead, otherwise this function will return a fd of sokcet. */
+ * and callback is not NULL, callback will be triggered in a new 
+ * thread, otherwise this function will return a fd of sokcet. */
 int listen(int port, void *callback = NULL, int backlog = 256);
+
+/* This function will block the thread to accept connect requests
+ * and never return. When connection is created, callback will be 
+ * triggered in a new thread, addr_info will save the client address 
+ * information. */
+int accept(int fd, void *addr_info = NULL, void *callback = NULL);
 
 /* This function get current block, and pointer to next block in the 
  * socket buffer. */

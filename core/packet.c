@@ -10,9 +10,16 @@ listen(int port, void *callback, int backlog)
 {
 	int fd_sock = le_listen(port, backlog);
 	if (callback != NULL && fd_sock != -1) {
-		//new_thread(callback, &fd_sock);
+		new_thread(callback, &fd_sock);
 	}
 	return fd_sock;
+}
+
+int 
+accept(int fd, void *addr_info, void *callback)
+{
+
+	return 0;
 }
 
 size_t 
