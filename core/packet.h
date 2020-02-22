@@ -3,9 +3,10 @@
 #include <stddef.h>
 
 /* This function listen on a port to accept connect requests.
- * Callback is a function pointer, if function listen successful 
- * and callback is not NULL, callback will be triggered in a new 
- * thread, otherwise this function will return a fd of sokcet. */
+ * Callback is a function pointer, if callback is not NULL, 
+ * callback will be triggered in a new thread. if function 
+ * successful, the function will return a fd of sokcet, otherwise
+ * the function will return -1. */
 int listen(int port, void *callback = NULL, int backlog = 256);
 
 /* This function will block the thread to accept connect requests

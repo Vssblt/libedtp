@@ -10,7 +10,9 @@ listen(int port, void *callback, int backlog)
 {
 	int fd_sock = le_listen(port, backlog);
 	if (callback != NULL && fd_sock != -1) {
-		new_thread(callback, &fd_sock);
+		int ret = new_thread(callback, &fd_sock);
+		if (ret != 0)
+			return -1;
 	}
 	return fd_sock;
 }

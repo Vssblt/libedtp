@@ -1,4 +1,5 @@
 #include "common.h"
+#include "thread.h"
 #include "base64.h"
 #include "socket.h"
 #include "packet.h"
@@ -16,6 +17,7 @@ void random_s_test();
 void uuid_test();
 void map_test();
 void socket_test();
+void new_thread_test();
 
 int
 main()
@@ -25,7 +27,8 @@ main()
 	base64_test();
 	safe_base64_test();
 	map_test();
-	socket_test();
+//	socket_test();
+	new_thread_test();
 	return 0;
 }
 
@@ -226,3 +229,19 @@ socket_test()
 #endif
 
 }
+
+void 
+thread1()
+{
+	for(int i = 0; i < 100; i++)
+		printf("%d\n", i);
+}
+
+void 
+new_thread_test()
+{
+	new_thread((void *)thread1, NULL);
+	new_thread((void *)thread1, NULL);
+}
+
+

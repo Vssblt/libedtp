@@ -7,30 +7,32 @@
 COMMON_H	common.h	2;"	d
 COPY	common.h	/^	COPY,$/;"	e	enum:__anon1
 COPY_AND_NEW	common.h	/^	COPY_AND_NEW,$/;"	e	enum:__anon1
-EdtpMap	map.h	/^typedef struct EdtpMap {$/;"	s
-LIBEDTP_H	libedtp.h	2;"	d
+EdtpMap	map.h	/^struct EdtpMap {$/;"	s
 LIBEDTP_MAP_H	map.h	2;"	d
 LIBEDTP_PACKET_H	packet.h	2;"	d
 LIBEDTP_SOCKET_H	socket.h	2;"	d
 LIBEDTP_THREAD_H	thread.h	2;"	d
-MapElement	map.h	/^typedef MapElement;$/;"	t
 MapElement	rbtree.h	/^struct MapElement{$/;"	s
 RBTREE_H	rbtree.h	2;"	d
 RtlGenRandom	common.c	10;"	d	file:
 Struct_Table	packet.h	/^struct Struct_Table {$/;"	s
+accept	packet.c	/^accept(int fd, void *addr_info, void *callback)$/;"	f
 add	rbtree.c	/^add(MapElement *root, const char *key, const char *value, int value_size)$/;"	f
-add_rebalance	rbtree.c	/^add_rebalance(MapElement *root, MapElement *node, MapElement *parent, MapElement *grandpa, MapElement *uncle)$/;"	f
+add_rebalance	rbtree.c	/^add_rebalance(MapElement **root, MapElement *node, MapElement *parent, MapElement *grandpa, MapElement *uncle)$/;"	f
 bin2hex	common.c	/^bin2hex(const u_char *data, uint32_t size, char *out) $/;"	f
 color	rbtree.h	/^	int color;$/;"	m	struct:MapElement
 del	rbtree.c	/^del(const char *key, MapElement *root)$/;"	f
-del_rebalance	rbtree.c	/^del_rebalance(MapElement *node, MapElement *root)$/;"	f
+del_rebalance	rbtree.c	/^del_rebalance(MapElement *node, MapElement **root)$/;"	f
 delete_map	map.c	/^delete_map(EdtpMap *map)$/;"	f
 delete_tree	rbtree.c	/^delete_tree(MapElement *root)$/;"	f
 edtp_type	common.h	/^static int edtp_type[65536] = {0};$/;"	v
 free_element	rbtree.c	/^free_element(MapElement *node)$/;"	f
 is_little_endian	common.c	/^is_little_endian() $/;"	f
 key	rbtree.h	/^	char *key;$/;"	m	struct:MapElement
+le_accept	socket.c	/^le_accept(int *fd_sock, int type)$/;"	f
 le_body_size	packet.c	/^le_body_size(int)$/;"	f
+le_clean	socket.c	/^le_clean()$/;"	f
+le_close	socket.c	/^le_close(int fd_sock)$/;"	f
 le_con	socket.c	/^le_con(const char *ip, int port)$/;"	f
 le_listen	socket.c	/^le_listen(int port, int backlog)$/;"	f
 le_ping	socket.c	/^le_ping(const char *ip)$/;"	f
@@ -43,14 +45,13 @@ lestring_copy	common.c	/^lestring_copy(lestring *dst, const char *str, int size,
 lestring_copy	common.c	/^lestring_copy(lestring *dst, lestring *srt, int type)$/;"	f
 lestring_free	common.c	/^lestring_free(lestring *str)$/;"	f
 listen	packet.c	/^listen(int port, void *callback, int backlog)$/;"	f
-main	libedtp.c	/^main()$/;"	f
 map_begin	map.c	/^map_begin(EdtpMap *map)$/;"	f
 map_end	map.c	/^map_end(EdtpMap *map)$/;"	f
 map_erase	map.c	/^map_erase(EdtpMap *map, MapElement *element)$/;"	f
 map_erase	map.c	/^map_erase(EdtpMap *map, const char *key)$/;"	f
-map_insert	map.c	/^map_insert(EdtpMap *map, const char *key, const char *value)$/;"	f
+map_insert	map.c	/^map_insert(EdtpMap *map, const char *key, const char *value, int value_size)$/;"	f
 map_next	map.c	/^map_next(MapElement *element)$/;"	f
-map_set	map.c	/^map_set(EdtpMap *map, const char *key, const char *value)$/;"	f
+map_set	map.c	/^map_set(EdtpMap *map, const char *key, const char *value, int value_size)$/;"	f
 map_value	map.c	/^map_value(EdtpMap *map, const char *key)$/;"	f
 max	common.h	13;"	d
 max	common.h	26;"	d
