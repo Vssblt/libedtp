@@ -27,8 +27,8 @@ main()
 	base64_test();
 	safe_base64_test();
 	map_test();
-//	socket_test();
 	new_thread_test();
+	socket_test();
 	return 0;
 }
 
@@ -233,8 +233,8 @@ socket_test()
 void 
 thread1()
 {
-	for(int i = 0; i < 100; i++)
-		printf("%d\n", i);
+	for(int i = 0; i < 300; i++)
+		printf("%d  ", i);
 }
 
 void 

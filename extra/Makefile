@@ -1,4 +1,4 @@
-COMMON = -w -O2 -I../core/ $(Mco)
+COMMON = -w -O0 -I../core/ $(Mco)
 LINKLIB = 
 OUTFILE = ../build
 LINKLIB = -ledtp -L../build/
