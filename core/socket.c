@@ -18,19 +18,35 @@ int
 le_con(const char *ip, int port)
 {
     //return connect();
-    return 0;
+	int sfd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	if (sfd == -1)
+		return -1;
+
+	struct sockaddr_in addr;
+	addr.sin_family = AF_INET;
+	addr.sin_port = htons(port);
+	inet_pton(AF_INET, ip, &addr.sin_addr);
+	memset(&(addr.sin_zero), 0, 8);
+	int len = sizeof(sockaddr_in);
+
+	int ret = connect(sfd, &addr, len);
+
+	if (ret == -1)
+		return -1;
+	else 
+		return sfd
 }
 
 int
 le_write(int fd_sock, const char *buff, size_t size)
 {
-	return 0;
+	return send(fd_socket, buff, size, 0);
 }
 
 int
 le_read(int fd_sock, char *buff, size_t size)
 {
-	return 0;
+	return recv(fd_sock, buff, size, 0);
 }
 
 int
@@ -109,7 +125,7 @@ le_clean()
 
 #if defined __CYGWIN__ || defined __linux__
 struct sockaddr_in
-le_accept(int *fd_sock, int type)
+le_accept(int *fd_sock)
 {
 	socklen_t addrlen;
 	struct sockaddr_in addr;
@@ -124,7 +140,7 @@ le_accept(int *fd_sock, int type)
 }
 #elif defined _WIN32
 struct SOCKADDR_IN
-le_accept(int *fd_sock, int type)
+le_accept(int *fd_sock)
 {
 	SOCKADDR_IN addr;
 	int addr_len = sizeof(SOCKADDR_IN);
