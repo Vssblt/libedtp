@@ -2,24 +2,31 @@
 #include "socket.h"
 #include "thread.h"
 #include "common.h"
+#include <malloc.h>
 
 size_t read_sizeof(int fd_sock);
 
 int
 listen(int port, void *callback, int backlog)
 {
-	int fd_sock = le_listen(port, backlog);
-	if (callback != NULL && fd_sock != -1) {
-		int ret = new_thread(callback, &fd_sock);
+	int *fd_sock = (int *)malloc(sizeof(int));
+	*fd_sock = le_listen(port, backlog);
+	if (callback != NULL && *fd_sock != -1) {
+		int ret = new_thread(callback, fd_sock);
 		if (ret != 0)
 			return -1;
 	}
-	return fd_sock;
+	return *fd_sock;
 }
 
 int 
-accept(int fd, void *addr_info, void *callback)
+accept(int fd, sockaddr_in *addr_info, void *callback)
 {
+	*addr_info = le_accept(&fd);
+	if (fd == -1) {
+		return fd;
+	}
+
 
 	return 0;
 }

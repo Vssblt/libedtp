@@ -1,11 +1,12 @@
 #ifndef LIBEDTP_PACKET_H
 #define LIBEDTP_PACKET_H
 #include <stddef.h>
+#include <netinet/in.h>
 
 /* This function listen on a port to accept connect requests.
  * Callback is a function pointer, if callback is not NULL, 
  * callback will be triggered in a new thread. if function 
- * successful, the function will return a fd of sokcet, otherwise
+ * succeeds, the function will return a fd of the sokcet, otherwise
  * the function will return -1. */
 int listen(int port, void *callback = NULL, int backlog = 256);
 
@@ -13,7 +14,7 @@ int listen(int port, void *callback = NULL, int backlog = 256);
  * and never return. When connection is created, callback will be 
  * triggered in a new thread, addr_info will save the client address 
  * information. */
-int accept(int fd, void *addr_info = NULL, void *callback = NULL);
+int accept(int fd, sockaddr_in *addr_info = NULL, void *callback = NULL);
 
 /* This function get current block, and pointer to next block in the 
  * socket buffer. */

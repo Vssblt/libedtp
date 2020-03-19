@@ -13,6 +13,8 @@
 #pragma comment(lib, "ws2_32.lib")
 #endif
 
+//temp code
+#include <errno.h>
 
 int
 le_con(const char *ip, int port)
@@ -25,22 +27,22 @@ le_con(const char *ip, int port)
 	struct sockaddr_in addr;
 	addr.sin_family = AF_INET;
 	addr.sin_port = htons(port);
-	inet_pton(AF_INET, ip, &addr.sin_addr);
+	inet_pton(AF_INET, ip, (sockaddr *)&addr.sin_addr);
 	memset(&(addr.sin_zero), 0, 8);
 	int len = sizeof(sockaddr_in);
 
-	int ret = connect(sfd, &addr, len);
+	int ret = connect(sfd, (sockaddr *)&addr, len);
 
 	if (ret == -1)
 		return -1;
 	else 
-		return sfd
+		return sfd;
 }
 
 int
 le_write(int fd_sock, const char *buff, size_t size)
 {
-	return send(fd_socket, buff, size, 0);
+	return send(fd_sock, buff, size, 0);
 }
 
 int
@@ -69,13 +71,16 @@ le_listen(int port, int backlog)
 	addrlen = sizeof(sockaddr_in);
 
 	if (-1 == (fd_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP))) {
-		printf("libedtp: le_listen: fd_socket error.");
+		//printf("libedtp: le_listen: fd_socket error.");
+		return -1;
 	}
 	if (-1 == bind(fd_sock, (sockaddr *)&addr, addrlen) ) {
-		printf("libedtp: le_listen: socket bind error.");
+		//printf("libedtp: le_listen: socket bind error.");
+		return -1;
 	}
 	if (-1 == listen(fd_sock, backlog)) { 				//listen will block the program.
-		printf("libedtp: le_listen: socket listen error! ");
+		//printf("libedtp: le_listen: socket listen error! ");
+		return -1;
 	}
 	return fd_sock;
 #elif defined _WIN32 						//not tested.
@@ -133,7 +138,7 @@ le_accept(int *fd_sock)
 
 	*fd_sock = accept(*fd_sock, (sockaddr *)&addr, &addrlen);
 	if (*fd_sock == -1) {
-		printf("libedtp: le_listen: socket accept error!");
+		//printf("libedtp: le_listen: socket accept error!");
 		*fd_sock = -1;
 	}
 	return addr;

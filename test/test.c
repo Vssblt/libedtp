@@ -18,6 +18,9 @@ void uuid_test();
 void map_test();
 void socket_test();
 void new_thread_test();
+void listened(int *fd);
+void block();
+void recv_data(int fd);
 
 int
 main()
@@ -27,8 +30,9 @@ main()
 	base64_test();
 	safe_base64_test();
 	map_test();
-	new_thread_test();
+//	new_thread_test();
 	socket_test();
+	block();
 	return 0;
 }
 
@@ -222,12 +226,48 @@ map_test()
 void 
 socket_test()
 {
-	listen(25678);
-#if defined __linux__ || defined __CYGWIN__
-	for (;;)
-		sleep(1);
-#endif
+	printf("\nSocket test begin: \n");
+	
+	/* The first examples. */
+	printf("\nThe first examples of socket server: \n");
+	int fd = listen(25678, (void *)listened, 256);
+	if (fd == -1) {
+		printf("Sock test error! listen failed! \n");
+		return;
+	}
+	/***********************/
+	
+	
+	/* The second examples. */
+	/* This method will block the main thread! */
+	printf("\nThe second examples of socket server: \n");
+	sockaddr_in saddr_in;
+	int fd2 = listen(25679, NULL, 256);
+	if (fd == -1) {
+		printf("Sock test error! listen failed! \n");
+		return;
+	}
 
+	accept(fd, &saddr_in, (void *)recv_data);
+	/***********************/
+}
+
+void 
+listened(int *fd)
+{
+	sockaddr_in saddr_in;
+	int fd_con = accept(*fd, &saddr_in, (void *)recv_data);
+	if (fd_con == -1) {
+		printf("Thread: Socket test error! accept failed! \n");
+	} else {
+		printf("Thread: Accept successfully! \n");
+	}
+}
+
+void
+recv_data(int fd)
+{
+	//printf
 }
 
 void 
@@ -244,4 +284,9 @@ new_thread_test()
 	new_thread((void *)thread1, NULL);
 }
 
-
+void
+block()
+{
+	for (;;) sleep(1);
+	return;
+}
