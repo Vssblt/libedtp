@@ -22,13 +22,28 @@ listen(int port, void *callback, int backlog)
 int 
 accept(int fd, sockaddr_in *addr_info, void *callback)
 {
-	*addr_info = le_accept(&fd);
-	if (fd == -1) {
-		return fd;
+	if (callback != NULL) {
+		while (1) {
+			int *fd_con = (int *)malloc(sizeof(int));
+			*fd_con = fd;
+			le_accept(fd_con);
+			if (fd == -1) {
+				return fd;
+			}
+			int ret = new_thread(callback, fd_con);
+			if (ret != 0)
+				return -1;
+		}
 	}
 
+	*addr_info = le_accept(&fd);
+	return fd;
+}
 
-	return 0;
+int
+connect(const char* ip, int port)
+{
+	return le_con(ip, port);
 }
 
 size_t 

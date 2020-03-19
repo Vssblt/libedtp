@@ -16,11 +16,14 @@ void safe_base64_test();
 void random_s_test();
 void uuid_test();
 void map_test();
-void socket_test();
+void socket_server_test();
+void socket_client_test();
 void new_thread_test();
 void listened(int *fd);
 void block();
 void recv_data(int fd);
+
+int listen_flag = 0;
 
 int
 main()
@@ -31,7 +34,8 @@ main()
 	safe_base64_test();
 	map_test();
 //	new_thread_test();
-	socket_test();
+	socket_server_test();
+	socket_client_test();
 	block();
 	return 0;
 }
@@ -224,9 +228,9 @@ map_test()
 }
 
 void 
-socket_test()
+socket_server_test()
 {
-	printf("\nSocket test begin: \n");
+	printf("\nSocket server test begin: \n");
 	
 	/* The first examples. */
 	printf("\nThe first examples of socket server: \n");
@@ -238,8 +242,9 @@ socket_test()
 	/***********************/
 	
 	
-	/* The second examples. */
-	/* This method will block the main thread! */
+
+	/* The second examples. 
+	 This method will block the main thread! 
 	printf("\nThe second examples of socket server: \n");
 	sockaddr_in saddr_in;
 	int fd2 = listen(25679, NULL, 256);
@@ -249,15 +254,17 @@ socket_test()
 	}
 
 	accept(fd, &saddr_in, (void *)recv_data);
-	/***********************/
+	***********************/
 }
 
 void 
 listened(int *fd)
 {
 	sockaddr_in saddr_in;
+	listen_flag = 1;
 	int fd_con = accept(*fd, &saddr_in, (void *)recv_data);
 	if (fd_con == -1) {
+		listen_flag = 0;
 		printf("Thread: Socket test error! accept failed! \n");
 	} else {
 		printf("Thread: Accept successfully! \n");
@@ -267,7 +274,22 @@ listened(int *fd)
 void
 recv_data(int fd)
 {
-	//printf
+	printf("Function recv data.");
+}
+
+void 
+socket_client_test()
+{
+	while (!listen_flag) sleep(1);
+	sleep(1);
+	printf("\nSocket client test begin: \n");
+	int ret = connect("127.0.0.1", 25678);
+	if (ret == -1) {
+		printf("connect failed!\n");
+	} else {
+		printf("connect succeeds!\n");
+	}
+
 }
 
 void 
@@ -287,6 +309,7 @@ new_thread_test()
 void
 block()
 {
+	printf("Function block");
 	for (;;) sleep(1);
 	return;
 }

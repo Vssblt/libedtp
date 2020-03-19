@@ -10,11 +10,13 @@
  * the function will return -1. */
 int listen(int port, void *callback = NULL, int backlog = 256);
 
-/* This function will block the thread to accept connect requests
+/* If callback is NULL, this function will block the thread to accept connect requests
  * and never return. When connection is created, callback will be 
  * triggered in a new thread, addr_info will save the client address 
  * information. */
 int accept(int fd, sockaddr_in *addr_info = NULL, void *callback = NULL);
+
+int connect(const char* ip, int port);
 
 /* This function get current block, and pointer to next block in the 
  * socket buffer. */
