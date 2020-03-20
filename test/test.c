@@ -1,4 +1,5 @@
 #include "common.h"
+#include <cerrno>
 #include "thread.h"
 #include "base64.h"
 #include "socket.h"
@@ -21,7 +22,7 @@ void socket_client_test();
 void new_thread_test();
 void listened(int *fd);
 void block();
-void recv_data(int fd);
+void recv_data(int *fd);
 
 int listen_flag = 0;
 
@@ -230,7 +231,7 @@ map_test()
 void 
 socket_server_test()
 {
-	printf("\nSocket server test begin: \n");
+	printf("\n\nSocket server test begin: ");
 	
 	/* The first examples. */
 	printf("\nThe first examples of socket server: \n");
@@ -272,9 +273,17 @@ listened(int *fd)
 }
 
 void
-recv_data(int fd)
+recv_data(int *fd)
 {
-	printf("Function recv data.");
+	printf("Function recv data.\n");
+	char *buf = (char *)malloc(25);
+
+	int ret = 0;
+	while (ret < 11) {
+		ret = ret + recv(*fd, buf + ret, 11, 0);
+	}
+
+	printf("recv: %s\n", buf);
 }
 
 void 
@@ -282,13 +291,15 @@ socket_client_test()
 {
 	while (!listen_flag) sleep(1);
 	sleep(1);
-	printf("\nSocket client test begin: \n");
-	int ret = connect("127.0.0.1", 25678);
-	if (ret == -1) {
+	printf("Socket client test begin: \n");
+	int sfd = connect("127.0.0.1", 25678);
+	if (sfd == -1) {
 		printf("connect failed!\n");
 	} else {
 		printf("connect succeeds!\n");
 	}
+	int ret = send(sfd, "123456789\n", 11, 0);
+	close(sfd);
 
 }
 

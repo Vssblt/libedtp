@@ -20,7 +20,7 @@ int connect(const char* ip, int port);
 
 /* This function get current block, and pointer to next block in the 
  * socket buffer. */
-size_t get_block(int fd_sock, void *buff, size_t max_size = -1);
+size_t read_block(int fd_sock, void *buff, size_t max_size = -1);
 
 /* This function return zero when the block is not ready to be read,
  * otherwise it will return a non-zero number. */
