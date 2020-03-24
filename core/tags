@@ -3,7 +3,7 @@
 !_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
-!_TAG_PROGRAM_VERSION	5.8	//
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
 COMMON_H	common.h	2;"	d
 COPY	common.h	/^	COPY,$/;"	e	enum:__anon1
 COPY_AND_NEW	common.h	/^	COPY_AND_NEW,$/;"	e	enum:__anon1
@@ -15,21 +15,28 @@ LIBEDTP_THREAD_H	thread.h	2;"	d
 MapElement	rbtree.h	/^struct MapElement{$/;"	s
 RBTREE_H	rbtree.h	2;"	d
 RtlGenRandom	common.c	10;"	d	file:
-Struct_Table	packet.h	/^struct Struct_Table {$/;"	s
-accept	packet.c	/^accept(int fd, void *addr_info, void *callback)$/;"	f
+StreamHeader	packet.h	/^struct StreamHeader {$/;"	s
+StructTable	packet.h	/^struct StructTable {$/;"	s
+accept	packet.c	/^accept(int fd, sockaddr_in *addr_info, void *callback)$/;"	f
 add	rbtree.c	/^add(MapElement *root, const char *key, const char *value, int value_size)$/;"	f
 add_rebalance	rbtree.c	/^add_rebalance(MapElement **root, MapElement *node, MapElement *parent, MapElement *grandpa, MapElement *uncle)$/;"	f
+arg	thread.c	/^	void *arg;$/;"	m	struct:func_info	file:
 bin2hex	common.c	/^bin2hex(const u_char *data, uint32_t size, char *out) $/;"	f
+block_count	packet.h	/^	uint16_t block_count;$/;"	m	struct:StreamHeader
 color	rbtree.h	/^	int color;$/;"	m	struct:MapElement
+connect	packet.c	/^connect(const char* ip, int port)$/;"	f
+current_block	packet.h	/^	uint16_t current_block;$/;"	m	struct:StreamHeader
 del	rbtree.c	/^del(const char *key, MapElement *root)$/;"	f
 del_rebalance	rbtree.c	/^del_rebalance(MapElement *node, MapElement **root)$/;"	f
 delete_map	map.c	/^delete_map(EdtpMap *map)$/;"	f
 delete_tree	rbtree.c	/^delete_tree(MapElement *root)$/;"	f
 edtp_type	common.h	/^static int edtp_type[65536] = {0};$/;"	v
 free_element	rbtree.c	/^free_element(MapElement *node)$/;"	f
+func	thread.c	/^	void *func;$/;"	m	struct:func_info	file:
+func_info	thread.c	/^struct func_info{$/;"	s	file:
 is_little_endian	common.c	/^is_little_endian() $/;"	f
 key	rbtree.h	/^	char *key;$/;"	m	struct:MapElement
-le_accept	socket.c	/^le_accept(int *fd_sock, int type)$/;"	f
+le_accept	socket.c	/^le_accept(int *fd_sock)$/;"	f
 le_body_size	packet.c	/^le_body_size(int)$/;"	f
 le_clean	socket.c	/^le_clean()$/;"	f
 le_close	socket.c	/^le_close(int fd_sock)$/;"	f
@@ -63,10 +70,9 @@ parent	rbtree.h	/^	struct MapElement *parent;$/;"	m	struct:MapElement	typeref:st
 print_time	common.c	/^print_time() $/;"	f
 random_mem	common.c	/^random_mem(u_char *mem, uint32_t len) $/;"	f
 random_s	common.c	/^random_s(int min, int max, int *err) $/;"	f
-read_block	packet.c	/^read_block(int fd_sock, void *buff, size_t max_size)$/;"	f
+read_block	packet.c	/^read_block(int fd_sock, stream_header *header_info, void *buff, size_t max_size)$/;"	f
+read_block_type	packet.c	/^read_block_type(int fd_sock)$/;"	f
 read_sizeof	packet.c	/^read_sizeof(int fd_sock)$/;"	f
-read_type	packet.c	/^read_type(int fd_sock)$/;"	f
-ready_read	packet.c	/^ready_read(int fd_sock)$/;"	f
 right	rbtree.h	/^	struct MapElement *right;$/;"	m	struct:MapElement	typeref:struct:MapElement::MapElement
 root	map.h	/^	MapElement *root;$/;"	m	struct:EdtpMap
 rotate34	rbtree.c	/^rotate34(MapElement *a, MapElement *b, MapElement *c, MapElement *t0, MapElement *t1, MapElement *t2, MapElement *t3, int type)$/;"	f
@@ -75,8 +81,9 @@ size	common.h	/^	int size;$/;"	m	struct:lestring
 size	map.h	/^	int size;$/;"	m	struct:EdtpMap
 str	common.h	/^	char *str;$/;"	m	struct:lestring
 struct_register	packet.c	/^struct_register(const char *id, const char *member_length)$/;"	f
-struct_table	packet.h	/^static struct Struct_Table struct_table;$/;"	v	typeref:struct:Struct_Table
-test	packet.h	/^	int test;$/;"	m	struct:Struct_Table
+struct_table	packet.h	/^static struct StructTable struct_table;$/;"	v	typeref:struct:StructTable
+test	packet.h	/^	int test;$/;"	m	struct:StructTable
+thread1	thread.c	/^thread1(void *f)$/;"	f
 thread_func	thread.h	/^typedef void (*thread_func)(void *arg);$/;"	t
 thread_func_none_arg	thread.h	/^typedef void (*thread_func_none_arg)();$/;"	t
 timestamp	common.c	/^timestamp() $/;"	f
@@ -90,3 +97,4 @@ u_char	common.h	/^typedef unsigned char u_char;$/;"	t
 uuid	common.c	/^uuid(char *_uuid) $/;"	f
 value	rbtree.h	/^	char *value;$/;"	m	struct:MapElement
 value_size	rbtree.h	/^	int value_size;$/;"	m	struct:MapElement
+version	packet.h	/^	uint8_t version;$/;"	m	struct:StreamHeader

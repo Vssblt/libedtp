@@ -3,6 +3,23 @@
 #include <stddef.h>
 #include <netinet/in.h>
 
+static int bh_basic_len = 1;
+static int bh_extended_len = 1;
+
+struct StreamHeader {
+	uint16_t block_count;
+	uint8_t version;
+	uint16_t current_block;
+};
+
+struct BlockHeader {
+	int is_extented;
+	uint8_t check;
+	uint8_t mode;
+	uint16_t type;
+	uint16_t length;
+};
+
 /* This function listen on a port to accept connect requests.
  * Callback is a function pointer, if callback is not NULL, 
  * callback will be triggered in a new thread. if function 
@@ -18,28 +35,18 @@ int accept(int fd, sockaddr_in *addr_info = NULL, void *callback = NULL);
 
 int connect(const char* ip, int port);
 
-/* This function get current block, and pointer to next block in the 
- * socket buffer. */
-size_t read_block(int fd_sock, void *buff, size_t max_size = -1);
+int read_stream_head(int fd_sock, StreamHeader *info);
 
-/* This function return zero when the block is not ready to be read,
- * otherwise it will return a non-zero number. */
-int ready_read(int fd_sock);
+size_t read_block_header(int fd_sock, StreamHeader *header_info, void *buff, size_t max_size = -1);
 
-/* This function return a type of current block. */ 
-int read_type(int fd_sock);
+size_t read_block_body(int fd_sock, BlockHeader *block_header, void *buffer);
 
-/* If you want*/
 void struct_register(const char *id, const char *member_length);
 
-size_t read_sizeof(int fd_sock);
-
-size_t le_body_size(int);
-
-struct Struct_Table {
+struct StructTable {
 //	const 
 	int test;
 };
-static struct Struct_Table struct_table;
+static struct StructTable struct_table;
 #endif
 

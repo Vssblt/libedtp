@@ -46,46 +46,24 @@ connect(const char* ip, int port)
 	return le_con(ip, port);
 }
 
-size_t 
-read_block(int fd_sock, void *buff, size_t max_size)
-{
-	while (!ready_read(fd_sock));// sleep(1);
-	int type = read_type(fd_sock);
-	if (type > 65535 || type < 0) {
-		return 0;
-	}
-	if (edtp_type[type] == 0) {
-		return 0;
-	}
-
-	return le_read(fd_sock, (char *)buff, min(max_size, (size_t)(edtp_type[type])));
-}
-
 int
-ready_read(int fd_sock)
+read_block_header(int fd_sock, BlockHeader *block_header)
 {
-	size_t size = read_sizeof(fd_sock);
-	size_t current = le_body_size(fd_sock);
-	return size <= current; 
-}
+	unsigned char *buff = (unsigned char *)malloc(bh_basic_len + bh_extended_len);
+	int ret = recv(fd_sock, buff, bh_basic_len, MSG_WAITALL);
+	if (ret < 0)
+		return -1;
 
-int 
-read_type(int fd_sock)
-{
+	if (*buff & 0x40) {
+		ret = recv(fd_sock, buff + bh_basic_len, bh_extended_len, MSG_WAITALL);
+		if (ret < 0)
+			return -1;
+	}
 	return 0;
 }
 
 size_t
-read_sizeof(int fd_sock)
-{
-	return 0;
-}
-
-size_t
-le_body_size(int)
-{
-	return 0;
-}
+read_block_body(int fd_sock, BlockHeader *block_header, void *buffer);
 
 void
 struct_register(const char *id, const char *member_length)
