@@ -1,0 +1,47 @@
+Stream: 
++---------------------------------------------------------+
+| stream header | block 1 | block 2 | block ... | block N |
++---------------------------------------------------------+
+^               ^
+0            32(bit)
+
+Stream header: 
++---------------------+
+| Flag | Ver | nBlock |
++---------------------+
+^      ^     ^        ^
+0      8     16       32(bit)
+
+Block(Fixed length): 
++-----------------------------+
+|         header       | body |
++-----------------------------+
+| verify | mode | type | data |
++-----------------------------+
+^        ^      ^      ^
+0        1      3      8/16(bit)
+
+Block(Unfixed length): 
++-------------------------------------+
+|             header           | body |
++-------------------------------------+
+| check | mode | type | length | data |
++-------------------------------------+
+^       ^      ^      ^        ^
+0        1      3      8/16  8/16 + 16(bit)
+
+Check: 
+The crc check digit of block head.
+
+Mode: 
+In extended mode, the length of "type" will be 13 bits.
+00    Normal fixed length mode
+01    Normal unfixed length mode
+10    Extended fixed length mode
+11    Extended unfixed length mode
+
+Type: 
+The type of block.
+
+Length: 
+The length of block.
