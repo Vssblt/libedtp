@@ -6,6 +6,9 @@
 static int bh_basic_len = 1;
 static int bh_extended_len = 1;
 
+static EdtpMap struct_name_id_map;
+static EdtpMap struct_id_len_map;
+
 struct StreamHeader {
 	uint16_t block_count;
 	uint8_t version;
@@ -40,7 +43,7 @@ size_t read_block_header(int fd_sock, StreamHeader *header_info, void *buff, siz
 
 size_t read_block_body(int fd_sock, BlockHeader *block_header, void *buffer);
 
-void struct_register(const char *id, const char *member_length);
+void struct_register(const char *name, uint16_t id, const char *member_length);
 
 uint16_t type_len(uint16_t type);
 

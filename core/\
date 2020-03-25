@@ -98,11 +98,7 @@ read_block_body(int fd_sock, BlockHeader *block_header, void *buffer)
 uint16_t
 type_len(uint16_t type)
 {
-	lestring len = map_value(struct_id_len_map, type);
-	if (len->str == NULL || len->len == 0)
-		return 0;
-	char *temp_str = len->str;
-//	sscanf(temp_str);
+	
 	return 0;
 }
 
