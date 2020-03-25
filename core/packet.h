@@ -13,8 +13,7 @@ struct StreamHeader {
 };
 
 struct BlockHeader {
-	int is_extented;
-	uint8_t check;
+	int is_extended;
 	uint8_t mode;
 	uint16_t type;
 	uint16_t length;
@@ -43,10 +42,7 @@ size_t read_block_body(int fd_sock, BlockHeader *block_header, void *buffer);
 
 void struct_register(const char *id, const char *member_length);
 
-struct StructTable {
-//	const 
-	int test;
-};
-static struct StructTable struct_table;
+uint16_t type_len(uint16_t type);
+
 #endif
 

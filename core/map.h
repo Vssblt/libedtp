@@ -10,9 +10,9 @@ struct EdtpMap {
 
 lestring map_value(EdtpMap *map, const char *key);
 
-void map_insert(EdtpMap *map, const char *key, const char *value, int value_size);
+void map_insert(EdtpMap *map, const char *key, const char *value, int value_size = -1);
 
-void map_set(EdtpMap *map, const char *key, const char *value, int value_size);
+void map_set(EdtpMap *map, const char *key, const char *value, int value_size = -1);
 
 void map_erase(EdtpMap *map, const MapElement *element);
 
