@@ -60,4 +60,6 @@ void lestring_copy(lestring *dst, lestring *srt, int type);
 
 void lestring_copy(lestring *dst, const char *str, int size, int type);
 
+void lestring_free(lestring *str);
+
 #endif

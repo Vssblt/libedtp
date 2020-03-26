@@ -3,41 +3,40 @@
 #include "thread.h"
 #include "common.h"
 #include <malloc.h>
+#include <string.h>
 
 size_t read_sizeof(int fd_sock);
 
 int
 listen(int port, void *callback, int backlog)
 {
-	int *fd_sock = (int *)malloc(sizeof(int));
-	*fd_sock = le_listen(port, backlog);
-	if (callback != NULL && *fd_sock != -1) {
-		int ret = new_thread(callback, fd_sock);
+	int fd_sock;
+	fd_sock = le_listen(port, backlog);
+	if (callback != NULL && fd_sock != -1) {
+		int ret = new_thread(callback, &fd_sock, sizeof(fd_sock));
 		if (ret != 0)
 			return -1;
 	}
-	return *fd_sock;
+	return fd_sock;
 }
 
 int 
-accept(int fd, sockaddr_in *addr_info, void *callback)
+accept(int fd_con, sockaddr_in *addr_info, void *callback)
 {
 	if (callback != NULL) {
 		while (1) {
-			int *fd_con = (int *)malloc(sizeof(int));
-			*fd_con = fd;
-			le_accept(fd_con);
-			if (fd == -1) {
-				return fd;
+			le_accept(&fd_con);
+			if (fd_con == -1) {
+				return fd_con;
 			}
-			int ret = new_thread(callback, fd_con);
+			int ret = new_thread(callback, &fd_con, sizeof(fd_con));
 			if (ret != 0)
 				return -1;
 		}
 	}
 
-	*addr_info = le_accept(&fd);
-	return fd;
+	*addr_info = le_accept(&fd_con);
+	return fd_con;
 }
 
 int
@@ -55,13 +54,15 @@ read_block_header(int fd_sock, BlockHeader *block_header)
 	uint8_t type = 0;
 	uint8_t length = 0;
 	int ret = recv(fd_sock, buff, bh_basic_len, MSG_WAITALL);
-	if (ret < 0)
-		return -1;
+	if (ret < 0) {
+		goto ERR_1;
+	}
 
 	if (*buff & 0x80) {
 		ret = recv(fd_sock, buff + bh_basic_len, bh_extended_len, MSG_WAITALL);
-		if (ret < 0)
-			return -1;
+		if (ret < 0) {
+			goto ERR_1;
+		}
 		is_extended = 1;
 	}
 
@@ -78,7 +79,7 @@ read_block_header(int fd_sock, BlockHeader *block_header)
 		length = (*(buff + is_extended + 1) << 8) + *(buff + 2 + is_extended);
 	}
 	if (length != type_len(type) && length == 0) {
-		return -2;
+		goto ERR_2;
 	}
 
 	block_header->is_extended = is_extended;
@@ -86,7 +87,16 @@ read_block_header(int fd_sock, BlockHeader *block_header)
 	block_header->type = type;
 	block_header->length = length;
 
+	free(buff);
 	return 0;
+
+ERR_1:
+	free(buff);
+	return -1;
+
+ERR_2:
+	free(buff);
+	return -2;
 }
 
 size_t
@@ -99,46 +109,61 @@ read_block_body(int fd_sock, BlockHeader *block_header, void *buffer)
 uint16_t
 type_len(uint16_t type)
 {
-	char *str_type = (char *)malloc(7);
-	int ret = sprintf(str_type, "%d\0", type);
-	if (ret <= 0) {
-		free(str_type);
-		return 0;
-	}
-	lestring len = map_value(&struct_id_len_map, str_type);
-	free(str_type);
-
-	if (len.str == NULL || len.size == 0)
-		return 0;
-
-	FILE *fd = open_memstream(&len.str, (size_t *)&len.size);
+	FILE *fd = 0;
 	uint16_t size = 0;
 	uint16_t temp = 0;
+	lestring len;
+
+	char *str_type = (char *)malloc(6);
+	memset(str_type, 0, 6);
+	int ret = sprintf(str_type, "%d", type);
+	if (ret <= 0) {
+		goto ERR_1;
+	}
+	len = map_value(&struct_id_len_map, str_type);
+	free(str_type);
+
+	if (len.str == NULL || len.size == 0) {
+		goto ERR_2;
+	}
+
+	fd = open_memstream(&len.str, (size_t *)&len.size);
 	ret = 1;
 	while (ret) {
-		ret = fscanf(fd, "%u ", &temp);
+		ret = fscanf(fd, "%hu ", &temp);
 		size += temp;
 	}
-	ret = fscanf(fd, "%u", &temp);
+	ret = fscanf(fd, "%hu", &temp);
 	if (ret)
 		size += temp;
+	lestring_free(&len);
+	
 	return size;
+
+ERR_1:
+	free(str_type);
+	return 0;
+
+ERR_2:
+	lestring_free(&len);
+	return 0;
 }
 #endif
 
 void
 struct_register(const char *name, uint16_t id, const char *member_length)
 {
-	char *str_id = (char *)malloc(7);
-	int ret = sprintf(str_id, "%d\0", id);
+	char *str_id = (char *)malloc(6);
+	memset(str_id, 0, 6);
+	int ret = sprintf(str_id, "%d", id);
 	if (ret <= 0) {
-		free(str_id);
-		return ;
+		goto RET;
 	}
 
 	map_insert(&struct_id_len_map, str_id, member_length);
 	map_insert(&struct_name_id_map, name, str_id);
 	
+RET:
 	free(str_id);
 }
 

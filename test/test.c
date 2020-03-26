@@ -59,6 +59,7 @@ uuid_test()
 	memset(uuid_str, 0, 37);
 	uuid(uuid_str);
 	printf("UUID: %s\n\n", uuid_str);
+	free(uuid_str);
 }
 
 void
@@ -284,6 +285,7 @@ recv_data(int *fd)
 	}
 
 	printf("recv: %s\n", buf);
+	free(buf);
 }
 
 void 
@@ -313,8 +315,8 @@ thread1()
 void 
 new_thread_test()
 {
-	new_thread((void *)thread1, NULL);
-	new_thread((void *)thread1, NULL);
+	new_thread((void *)thread1, NULL, 0);
+	new_thread((void *)thread1, NULL, 0);
 }
 
 void
