@@ -95,21 +95,51 @@ read_block_body(int fd_sock, BlockHeader *block_header, void *buffer)
 	return 0;
 }
 
+#if defined __linux__ || defined __CYGWIN__
 uint16_t
 type_len(uint16_t type)
 {
-	lestring len = map_value(struct_id_len_map, type);
-	if (len->str == NULL || len->len == 0)
+	char *str_type = (char *)malloc(7);
+	int ret = sprintf(str_type, "%d\0", type);
+	if (ret <= 0) {
+		free(str_type);
 		return 0;
-	char *temp_str = len->str;
-//	sscanf(temp_str);
-	return 0;
+	}
+	lestring len = map_value(&struct_id_len_map, str_type);
+	free(str_type);
+
+	if (len.str == NULL || len.size == 0)
+		return 0;
+
+	FILE *fd = open_memstream(&len.str, (size_t *)&len.size);
+	uint16_t size = 0;
+	uint16_t temp = 0;
+	ret = 1;
+	while (ret) {
+		ret = fscanf(fd, "%u ", &temp);
+		size += temp;
+	}
+	ret = fscanf(fd, "%u", &temp);
+	if (ret)
+		size += temp;
+	return size;
 }
+#endif
 
 void
 struct_register(const char *name, uint16_t id, const char *member_length)
 {
+	char *str_id = (char *)malloc(7);
+	int ret = sprintf(str_id, "%d\0", id);
+	if (ret <= 0) {
+		free(str_id);
+		return ;
+	}
 
+	map_insert(&struct_id_len_map, str_id, member_length);
+	map_insert(&struct_name_id_map, name, str_id);
+	
+	free(str_id);
 }
 
 

@@ -2,6 +2,7 @@
 #define LIBEDTP_PACKET_H
 #include <stddef.h>
 #include <netinet/in.h>
+#include "map.h"
 
 static int bh_basic_len = 1;
 static int bh_extended_len = 1;
